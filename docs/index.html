@@ -1340,7 +1340,8 @@ $T0b#e6
 <p>There are so many ways to skin this ROP cat (you monsters!) and this is only one of them. For exercise, you could try some other approaches:</p>
 <ul class="simple">
 <li><p>Make your life easy as you should and use <code class="docutils literal notranslate"><span class="pre">lwip_write</span></code> for the gadget.</p></li>
-<li><p>Forgo the gadgets altogether, set up <code class="docutils literal notranslate"><span class="pre">a10..13</span></code> directly and return right to the start of <code class="docutils literal notranslate"><span class="pre">lwip_send</span></code>.</p></li>
+<li><p>Set up <code class="docutils literal notranslate"><span class="pre">a10..a13</span></code> and return directly to the <code class="docutils literal notranslate"><span class="pre">call8</span> <span class="pre">lwip_send</span></code>.</p></li>
+<li><p>Forgo the gadgets altogether, set up <code class="docutils literal notranslate"><span class="pre">a2..a5</span></code> directly and return right to the start of <code class="docutils literal notranslate"><span class="pre">lwip_send</span></code>.</p></li>
 </ul>
 </div>
 </section>
