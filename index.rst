@@ -71,7 +71,7 @@ After starting, the app will show a "Starting service..." screen for a while, fo
 
 In addition, the kite LEDs on the badge will turn red, green or yellow depending on the detected configuration:
 
-* Yellow: The app needs to be updated
+* Blue: The app needs to be updated
 * Green: The app is up and running but this badge only contains a dummy flag.
 * Red: The app is up and running and this badge contains the actual flag.
 
@@ -134,7 +134,7 @@ You will also quickly find that the decompiler produces only gibberish. The Xten
 Xtensa assembly demystified
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Xtensa assembly is pretty easy to read if you're already acquainted with other RISC architectures like ARM or PowerPC. The instruction mnemonics are intuitive and there are no special registers whatsoever, just a GPR file of registers ``a0``..``a15``. Looking at the assembly, it seems like a1 is used as the stack pointer - the ``entry a1, <value>`` at the beginning of functions is a dead giveaway. Let's keep that in mind for later.
+Xtensa assembly is pretty easy to read if you're already acquainted with other RISC architectures like ARM or PowerPC. The instruction mnemonics are intuitive and there are no special registers whatsoever, just a GPR file of registers ``a0..a15``. Looking at the assembly, it seems like a1 is used as the stack pointer - the ``entry a1, <value>`` at the beginning of functions is a dead giveaway. Let's keep that in mind for later.
 
 The one thing that caused me some confusion at first was that there are different flavors of some instructions, such as ``mov`` and ``mov.n`` - do those .n instructions have special meaning? A bit of browsing the ISA reference quickly reveals that no, they do exactly the same. Xtensa just has a special "narrow" encoding for some instructions that come up a lot in average code. Normal Xtensa instructions are three bytes, whereas the narrow forms only take up two bytes, conserving some code space. So ``mov.n`` is simply the narrow variant of ``mov`` and when reading the assembly we can treat it exactly the same as ``mov``.
 
@@ -636,9 +636,9 @@ We finally have all we need to craft a first exploit payload. Let's gently feel 
 Setting up a template
 ---------------------
 
-There might be plenty of awesome tools for crafting stack payloads around, but I simply used a hex editor :) Let's start by writing a text file in a text editor:
+There might be plenty of awesome tools for crafting stack payloads around, but I simply used a hex editor :) Let's start by writing a text file in a text editor::
 
-  ``asdfasdfasdfasdfasdfasdfasdfasdfA4A4A5A5A6A6A7A7C0C0C1C1C2C2C3C3B4B4B5B5B6B6B7B7D0D0D1D1D2D2D3D3C4C4C5C5C6C6C7C7E0E0E1E1E2E2E3E3D4D4D5D5D6D6D7D7F0F0F1F1F2F2F3F3E4E4E5E5E6E6E7E\n``
+  asdfasdfasdfasdfasdfasdfasdfasdfA4A4A5A5A6A6A7A7C0C0C1C1C2C2C3C3B4B4B5B5B6B6B7B7D0D0D1D1D2D2D3D3C4C4C5C5C6C6C7C7E0E0E1E1E2E2E3E3D4D4D5D5D6D6D7D7F0F0F1F1F2F2F3F3E4E4E5E5E6E6E7E\n
 
 One line, no line breaks except the one at the very end. Make sure it's Unix encoded so the ``\n`` is a single 0x0A byte. Save the file as ``payload1-nocrash.bin``, and re-open in your favorite hex editor. Here's the file layout:
 
@@ -908,7 +908,7 @@ With trembling fingers, we enter the command to send it to our target... just ki
 **And there it is - our tasty, tasty flag!**
 
 .. tip::
-  There are so many ways to skin this ROP cat (you monsters! the poor cat!) and this is only one of them. For exercise, you could try some other approaches:
+  There are so many ways to skin this ROP cat (you monsters!) and this is only one of them. For exercise, you could try some other approaches:
 
   * Make your life easy as you should and use ``lwip_write`` for the gadget.
   * Forgo the gadgets altogether, set up ``a10..13`` directly and return right to the start of ``lwip_send``.
