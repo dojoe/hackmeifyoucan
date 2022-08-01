@@ -911,7 +911,8 @@ With trembling fingers, we enter the command to send it to our target... just ki
   There are so many ways to skin this ROP cat (you monsters!) and this is only one of them. For exercise, you could try some other approaches:
 
   * Make your life easy as you should and use ``lwip_write`` for the gadget.
-  * Forgo the gadgets altogether, set up ``a10..13`` directly and return right to the start of ``lwip_send``.
+  * Set up ``a10..a13`` and return directly to the ``call8 lwip_send``.
+  * Forgo the gadgets altogether, set up ``a2..a5`` directly and return right to the start of ``lwip_send``.
 
 
 Recap
