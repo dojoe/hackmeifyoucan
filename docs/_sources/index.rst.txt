@@ -356,7 +356,7 @@ Well, there's our console trace again! Looks like this code block is the "if no 
   400d78ba 81 a7 e3        l32r       a8,memcpy                 = 400015D4h
   400d78bd e0 08 00        callx8     a8
 
-Note that I renamed our pointer from above to ``memcpy`` to make its meaning clear. So we're apparently loading the flag string from NVS into a ``malloc``ed bit of memory, and then ``memcpy`` the value over to a static location; the same location that we copied the fake flag to in the other code block. I bet you that's the flag location we should extract. I agree, the name ``flag`` could have tipped me off early on but where's the fun in that?
+Note that I renamed our pointer from above to ``memcpy`` to make its meaning clear. So we're apparently loading the flag string from NVS into a ``malloc``'ed bit of memory, and then ``memcpy`` the value over to a static location; the same location that we copied the fake flag to in the other code block. I bet you that's the flag location we should extract. I agree, the name ``flag`` could have tipped me off early on but where's the fun in that?
 
 So we conclude: **The flag sits at 0x3ffb5358!**
 
