@@ -679,7 +679,7 @@ Let's start with the first pair of these, in the frame C base save area. Let's t
 
 But you know what? This would clobber any value we may have painstakingly put into ``a2``, so let's deviate from the original flow a bit and skip that ``mov`` instruction. Let's use the address of the ``retw`` instead.
 
-Also, this is a great moment to remember how the topmost two bits of the return address *actually* encode the amount to shift the register window when returning? We better encode the right value in here! Since we're using ``call8`` everywhere that would be ``0b10``.
+Also, this is a great moment to remember how the topmost two bits of the return address *actually* encode the amount to shift the register window when returning! We better encode the right value in here! Since we're using ``call8`` everywhere that would be ``0b10``.
 
 With all that in mind, we can craft our first register value:
 
@@ -743,7 +743,7 @@ Yep, that's our payload back, mostly unscathed! And the app didn't crash - we ca
   The ``dd bs=1 skip=22`` in the chain is just there to remove the ``Connection accepted!`` message the badge sends us upon connection.
 
 .. warning::
-  If this payload doesn't work for you and instead crashes the badge, chances are you have a different stack pointer than I and have not yet adapted the payload to your specific stack pointer value.
+  If this payload doesn't work for you and instead crashes the badge, chances are you have a different stack pointer than I had and have not yet adapted the payload to your specific stack pointer value.
 
 
 Crafting an exploit, act 2: Let's make it dance! Maybe.
@@ -802,7 +802,7 @@ Crafting an exploit, act 3: Using what's already there
 
 If we can't put our own code onto the stack, we can still use the code that's already there. The app is over 1MiB, there *must* be a sequence we can use somewhere in there.
 
-What we're looking for is a sequence of instructions that does a lot of what we need and doesn't to a lot more before hitting a ``retw`` instruction. We can then craft a return address on our stack that "returns" right to the start of that sequence (which may well be in the middle of a completely unrelated function, guess how much I care). If the sequence doesn't do all that we need, we have more stack frames we can use to jump to other sequences until we reach our goal.
+What we're looking for is a sequence of instructions that does a lot of what we need and doesn't do a lot more before hitting a ``retw`` instruction. We can then craft a return address on our stack that "returns" right to the start of that sequence (which may well be in the middle of a completely unrelated function, guess how much I care). If the sequence doesn't do all that we need, we have more stack frames we can use to jump to other sequences until we reach our goal.
 
 You probably know what I'm talking about here - this method is called "`Return-oriented programming`_" or ROP for short, and the sequences we're looking for are called "ROP gadgets".
 
